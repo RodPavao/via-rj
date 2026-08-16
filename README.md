@@ -14,6 +14,20 @@ The current version of VIA RJ is available online through GitHub Pages:
 
 The deployed version is updated as the project evolves.
 
+## 📸 Project Preview
+
+### VIA RJ Interface
+
+The current interface provides a simple starting point for accessing and searching traffic-related services.
+
+![VIA RJ interface](screenshots/via-rj-interface.png)
+
+### JavaScript Logic
+
+The application uses JavaScript for user input handling, validation, service search logic, DOM manipulation and event handling.
+
+![VIA RJ JavaScript logic](screenshots/via-rj-javascript.png)
+
 ## 🎯 Project Objective
 
 The main objective of VIA RJ is to develop a web application capable of organizing and simplifying access to information about traffic-related services.
