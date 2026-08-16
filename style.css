@@ -1,0 +1,44 @@
+body {
+    background-color: #f2f4f7;
+    color: #163a6b;
+    font-size: 20px;
+}
+
+#botaoVerificar {
+    border-radius: 8px;
+    padding: 10px 20px;
+    background-color: #163a6b;
+    font-size: 18px;
+    color: white;
+}
+
+.opcao {
+    border-radius: 8px;
+    padding: 8px 15px;
+    background-color: white;
+    font-size: 16px;
+    color: #163a6b;
+    border: 1px solid #163a6b;
+}
+
+header {
+    background-color: #163a6b;
+    color: white;
+    padding: 20px;
+}
+
+main {
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.categoria {
+    padding: 12px 20px;
+    margin-right: 10px;
+}
+
+.lista-categorias {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
