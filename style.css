@@ -1,44 +1,96 @@
 body {
+    margin: 0;
     background-color: #f2f4f7;
     color: #163a6b;
     font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-#botaoVerificar {
-    border-radius: 8px;
-    padding: 10px 20px;
-    background-color: #163a6b;
-    font-size: 18px;
-    color: white;
-}
-
-.opcao {
-    border-radius: 8px;
-    padding: 8px 15px;
-    background-color: white;
-    font-size: 16px;
-    color: #163a6b;
-    border: 1px solid #163a6b;
-}
 
 header {
     background-color: #163a6b;
     color: white;
-    padding: 20px;
+    padding: 30px;
+    text-align: center;
 }
+
 
 main {
     max-width: 900px;
     margin: 30px auto;
+    text-align: center;
 }
 
-.categoria {
-    padding: 12px 20px;
-    margin-right: 10px;
+
+#pesquisa {
+    width: 60%;
+    max-width: 500px;
+    padding: 12px;
+    font-size: 16px;
 }
+
+
+#botaoPesquisar {
+    padding: 12px 20px;
+    margin-left: 8px;
+    border-radius: 8px;
+    border: none;
+    background-color: #163a6b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+#servicos {
+    max-width: 900px;
+    margin: 30px auto;
+    text-align: center;
+}
+
 
 .lista-categorias {
     display: flex;
+    justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
+}
+
+
+.categoria {
+    width: 180px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid #163a6b;
+    background-color: white;
+    color: #163a6b;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+#resultado {
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+
+.servico-item {
+    background-color: white;
+    border: 1px solid #163a6b;
+    border-radius: 8px;
+    padding: 6px;
+    margin: 12px auto;
+    max-width: 500px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.servico-item p {
+    margin: 8px 0;
+}
+
+.servico-item strong {
+    display: block;
+    margin: 6px 0;
 }
