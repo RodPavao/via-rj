@@ -6,6 +6,14 @@ The project evolved from an initial learning exercise focused on driver's licens
 
 > **Disclaimer:** VIA RJ is an independent academic and portfolio project. It is not an official DETRAN-RJ system and does not replace official government channels.
 
+## 🌐 Live Demo
+
+The current version of VIA RJ is available online through GitHub Pages:
+
+👉 **[Open VIA RJ](https://rodpavao.github.io/via-rj/)**
+
+The deployed version is updated as the project evolves.
+
 ## 🎯 Project Objective
 
 The main objective of VIA RJ is to develop a web application capable of organizing and simplifying access to information about traffic-related services.
