@@ -1,56 +1,92 @@
-# CNH Learning Project 🚗
+# VIA RJ 🚦
 
-A learning project developed during my studies of programming logic, HTML and JavaScript.
+VIA RJ is a web development project created to apply programming concepts to a practical, real-world scenario involving access to public traffic-related services and information in Rio de Janeiro, Brazil.
 
-The project uses concepts related to the Brazilian driver's license (CNH) as a practical context for learning and applying fundamental programming concepts.
+The project evolved from an initial learning exercise focused on driver's license (CNH) scenarios into a broader web application developed progressively as part of my studies in Analysis and Systems Development.
+
+> **Disclaimer:** VIA RJ is an independent academic and portfolio project. It is not an official DETRAN-RJ system and does not replace official government channels.
 
 ## 🎯 Project Objective
 
-The main objective of this project is to practice programming logic through simple and practical exercises, including user input, data validation, conditional structures and displaying results on a web page.
+The main objective of VIA RJ is to develop a web application capable of organizing and simplifying access to information about traffic-related services.
+
+The project is also a practical environment for applying software development concepts as I progress through my studies, gradually evolving from a basic front-end application toward a more structured system.
 
 ## 🛠️ Technologies
 
+Currently used:
+
 - HTML5
+- CSS3
 - JavaScript
 - Visual Studio Code
 - Git
 - GitHub
 
-## 📂 Project Structure
+Technologies and tools may be incorporated progressively as the project evolves.
 
-### Aplicacao-CNH
+## 💻 Current Features
 
-Contains the main CNH-related application developed during my programming studies.
+The current version includes:
 
-### Exercicios-de-Fixacao
+- Structured web interface
+- Service search field
+- User input handling
+- Input validation
+- Conditional logic
+- Dynamic result display
+- DOM manipulation
+- JavaScript event handling
+- Responsive interface styling
+- Separation between HTML, CSS and JavaScript
 
-Contains practice exercises created to reinforce concepts studied in HTML and JavaScript.
+The application is currently being expanded with new services and improvements to its interface and internal logic.
 
-## 📚 Concepts Practiced
+## 🧠 Concepts Applied
 
-During the development of this project, I practiced concepts such as:
+During the development of VIA RJ, I have been applying concepts such as:
 
 - Variables and data types
-- Conditional statements (`if` / `else`)
+- Conditional statements
 - Comparison and logical operators
 - Functions
 - User input validation
 - DOM manipulation
-- Events
-- `getElementById`
-- `textContent`
-- `Number()`
-- `isNaN()`
-- Basic integration between HTML and JavaScript
+- Event listeners
+- HTML semantic structure
+- CSS styling and layout
+- Separation of responsibilities between HTML, CSS and JavaScript
+- Git version control
+- Incremental software development
 
-## 🚀 Learning Journey
+## 📂 Project Structure
 
-This repository is part of my learning journey in software development. It documents my first practical exercises with programming logic and web development while studying Analysis and Systems Development.
+The main application contains:
 
-The project will evolve as I learn and apply new programming concepts.
+- `index.html` — page structure and content
+- `style.css` — visual presentation and interface styling
+- `script.js` — application logic and user interactions
+
+The repository may also contain exercises and previous development material documenting the project's learning process.
+
+## 🚧 Development Status
+
+**VIA RJ is currently under active development.**
+
+The project is being expanded incrementally as new programming concepts and technologies are studied and applied.
+
+Future versions may include more advanced data handling, external data sources, back-end development and database integration.
+
+## 📚 Learning Journey
+
+VIA RJ is part of my practical learning journey in software development while studying Analysis and Systems Development.
+
+Instead of treating programming concepts only as isolated exercises, the project provides a continuous environment where new knowledge can be applied to an evolving application.
+
+This repository therefore documents both the development of the application and the progression of my technical skills.
 
 ## 👨‍💻 Author
 
 **Rodrigo Pavão**
 
-Analysis and Systems Development student, currently building skills in programming, software development and technology.
+Analysis and Systems Development student focused on building practical experience in programming, software development and technology.
