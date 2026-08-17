@@ -112,6 +112,55 @@ function normalizarTexto(texto) {
         .replace(/[\u0300-\u036f]/g, "");
 }
 
+function calcularDistancia(a, b) {
+
+    let matriz = [];
+
+    for (let i = 0; i <= b.length; i++) {
+        matriz[i] = [i];
+    }
+
+    for (let j = 0; j <= a.length; j++) {
+        matriz[0][j] = j;
+    }
+
+    for (let i = 1; i <= b.length; i++) {
+
+        for (let j = 1; j <= a.length; j++) {
+
+            if (b.charAt(i - 1) === a.charAt(j - 1)) {
+
+                matriz[i][j] = matriz[i - 1][j - 1];
+
+            } else {
+
+                matriz[i][j] = Math.min(
+                    matriz[i - 1][j - 1] + 1,
+                    matriz[i][j - 1] + 1,
+                    matriz[i - 1][j] + 1
+                );
+            }
+        }
+    }
+
+    return matriz[b.length][a.length];
+}
+
+function mostrarServicos(listaServicos) {
+
+    resultado.innerHTML = "";
+
+    for (let servico of listaServicos) {
+
+        resultado.innerHTML += `
+            <div class="servico-item" data-servico="${servico.nome}">
+                <strong>${servico.nome}</strong>
+                <p>${servico.mensagem}</p>
+            </div>
+        `;
+    }
+}
+
 function pesquisarServico() {
 
 
@@ -132,31 +181,72 @@ function pesquisarServico() {
     // 4. PROCURAR SERVIÇO
 let termo = normalizarTexto(pesquisa);
 
+let servicosEncontrados = [];
+
 for (let servico of servicos) {
 
-    let encontrouPalavra = false;
+    let pontuacao = 0;
 
-for (let palavra of servico.palavrasChave) {
+    let nomeNormalizado = normalizarTexto(servico.nome);
+
+    if (nomeNormalizado === termo) {
+        pontuacao += 10;
+    } else if (nomeNormalizado.includes(termo)) {
+        pontuacao += 5;
+    }
+
+   for (let palavra of servico.palavrasChave) {
 
     let palavraNormalizada = normalizarTexto(palavra);
 
-if (
-    termo.includes(palavraNormalizada) ||
-    palavraNormalizada.includes(termo)
-) {
-        encontrouPalavra = true;
-        break;
+    if (palavraNormalizada === termo) {
+        pontuacao += 4;
+
+    } else if (
+        termo.includes(palavraNormalizada) ||
+        palavraNormalizada.includes(termo)
+    ) {
+        pontuacao += 2;
+
+    } else {
+
+        let distancia = calcularDistancia(termo, palavraNormalizada);
+
+        if (distancia <= 2) {
+            pontuacao += 1;
+        }
     }
 }
 
-    if (encontrouPalavra) {
-        resultado.textContent = servico.mensagem;
-        return;
-    }
+if (pontuacao > 0) {
+
+    servicosEncontrados.push({
+        servico: servico,
+        pontuacao: pontuacao
+    });
 }
 
-// 5. CASO NÃO ENCONTRE
-resultado.textContent = "Serviço não encontrado.";
+}
+
+servicosEncontrados.sort(function (a, b) {
+    return b.pontuacao - a.pontuacao;
+});
+
+let servicosOrdenados = [];
+
+for (let item of servicosEncontrados) {
+    servicosOrdenados.push(item.servico);
+}
+
+if (servicosEncontrados.length === 0) {
+    resultado.textContent = "Serviço não encontrado.";
+    return;
+}
+
+resultado.innerHTML = "";
+
+mostrarServicos(servicosOrdenados);
+
 }
 
 document
@@ -170,20 +260,16 @@ for (let botao of botoesCategoria) {
 
         let categoriaEscolhida = botao.dataset.categoria;
 
-        resultado.innerHTML = "";
+        let servicosDaCategoria = [];
 
         for (let servico of servicos) {
 
             if (servico.categoria === categoriaEscolhida) {
-
-                resultado.innerHTML += `
-                    <div class="servico-item" data-servico="${servico.nome}">
-                        <strong>${servico.nome}</strong>
-                        <p>${servico.mensagem}</p>
-                    </div>
-                `;
+                servicosDaCategoria.push(servico);
             }
         }
+
+        mostrarServicos(servicosDaCategoria);
 
     });
 }
@@ -209,29 +295,36 @@ if (!servicoSelecionado) {
 
 resultado.innerHTML = `
     <div class="detalhe-servico">
-        <h3>${servicoSelecionado.nome}</h3>
+
+        <h2>${servicoSelecionado.nome}</h2>
+
+        <p class="categoria-detalhe">
+            ${servicoSelecionado.categoria}
+        </p>
+
         <p>${servicoSelecionado.mensagem}</p>
-        <p><strong>Categoria:</strong> ${servicoSelecionado.categoria}</p>
+
+        <div class="conteudo-futuro">
+            <p>As orientações detalhadas deste serviço serão adicionadas após validação das informações.</p>
+        </div>
+
         <button id="voltarServicos">Voltar</button>
+
     </div>
 `;
 document.getElementById("voltarServicos")
     .addEventListener("click", function () {
 
-        resultado.innerHTML = "";
+        let servicosDaCategoria = [];
 
         for (let servico of servicos) {
 
             if (servico.categoria === servicoSelecionado.categoria) {
-
-                resultado.innerHTML += `
-                    <div class="servico-item" data-servico="${servico.nome}">
-                        <strong>${servico.nome}</strong>
-                        <p>${servico.mensagem}</p>
-                    </div>
-                `;
+                servicosDaCategoria.push(servico);
             }
         }
+
+        mostrarServicos(servicosDaCategoria);
     });
 });
 
@@ -242,5 +335,32 @@ document.getElementById("pesquisa")
 
         if (evento.key === "Enter") {
             pesquisarServico();
+        }
+    });
+
+document.getElementById("pesquisa")
+    .addEventListener("input", function () {
+
+        let texto = normalizarTexto(this.value);
+        let sugestoes = document.getElementById("sugestoes");
+
+        sugestoes.innerHTML = "";
+
+        if (texto.length < 3) {
+            return;
+        }
+
+        for (let servico of servicos) {
+
+            let nome = normalizarTexto(servico.nome);
+
+            if (nome.includes(texto)) {
+
+                sugestoes.innerHTML += `
+                    <div class="sugestao-item">
+                        ${servico.nome}
+                    </div>
+                `;
+            }
         }
     });

@@ -94,3 +94,34 @@ main {
     display: block;
     margin: 6px 0;
 }
+
+.detalhe-servico {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #163a6b;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.categoria-detalhe {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.conteudo-futuro {
+    margin: 20px 0;
+    padding: 12px;
+    background-color: #f2f4f7;
+    border-radius: 6px;
+}
+
+#voltarServicos {
+    padding: 8px 18px;
+    border: 1px solid #163a6b;
+    border-radius: 6px;
+    background-color: white;
+    color: #163a6b;
+    cursor: pointer;
+}
