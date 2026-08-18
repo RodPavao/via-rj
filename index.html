@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VIA RJ - Serviços de Trânsito</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -9,10 +14,15 @@
 <header>
     <h1>VIA RJ</h1>
     <p>Seu caminho para os serviços de trânsito</p>
+    <p class="aviso-independente">
+    Projeto independente e acadêmico. Não é um canal oficial do DETRAN-RJ.
+</p>
 </header>
 
 <main>
     <h2>Como podemos ajudar?</h2>
+
+<label for="pesquisa">Qual serviço você procura?</label>
 
     <input
         type="text"
@@ -21,8 +31,8 @@
     >
 
     <button id="botaoPesquisar">Pesquisar</button>
-    <div id="sugestoes"></div>
-</main>
+    <div id="sugestoes" aria-live="polite"></div>
+
 
 <section id="servicos">
     <h2>Serviços</h2>
@@ -33,10 +43,12 @@
         <button class="categoria" data-categoria="Identificação">Identificação</button>
         <button class="categoria" data-categoria="Infrações">Infrações</button>
     </div>
+
 </section>
 
-<p id="resultado"></p>
+<section id="resultado" aria-live="polite"></section>
 
+</main>
 
 <script src="script.js"></script>
 
