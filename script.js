@@ -21,12 +21,27 @@ function carregarServicos() {
         .then(function (resposta) {
 
             if (!resposta.ok) {
-                throw new Error("Erro HTTP: " + resposta.status);
+                throw new Error("PHP indisponível");
             }
 
             return resposta.json();
         })
+        .catch(function () {
+
+            console.log("PHP indisponível. Usando servicos.json.");
+
+            return fetch("servicos.json")
+                .then(function (resposta) {
+
+                    if (!resposta.ok) {
+                        throw new Error("Erro ao carregar servicos.json");
+                    }
+
+                    return resposta.json();
+                });
+        })
         .then(function (dados) {
+
             servicos = dados;
         })
         .catch(function (erro) {
