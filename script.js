@@ -17,31 +17,24 @@ let botoesCategoria = document.querySelectorAll(".categoria");
 
 function carregarServicos() {
 
-    fetch("api/servicos.php")
+    let enderecoDados;
+
+    if (window.location.hostname.includes("github.io")) {
+        enderecoDados = "servicos.json";
+    } else {
+        enderecoDados = "api/servicos.php";
+    }
+
+    fetch(enderecoDados)
         .then(function (resposta) {
 
             if (!resposta.ok) {
-                throw new Error("PHP indisponível");
+                throw new Error("Erro HTTP: " + resposta.status);
             }
 
             return resposta.json();
         })
-        .catch(function () {
-
-            console.log("PHP indisponível. Usando servicos.json.");
-
-            return fetch("servicos.json")
-                .then(function (resposta) {
-
-                    if (!resposta.ok) {
-                        throw new Error("Erro ao carregar servicos.json");
-                    }
-
-                    return resposta.json();
-                });
-        })
         .then(function (dados) {
-
             servicos = dados;
         })
         .catch(function (erro) {
@@ -465,12 +458,4 @@ document.addEventListener(
     }
 );
 
-fetch("api/teste.php")
-    .then(function (resposta) {
-        return resposta.json();
-    })
-    .then(function (dados) {
-        console.log(dados);
-        console.log(dados.mensagem);
-    });
 
