@@ -107,14 +107,14 @@ header {
 
 
 .logo-via-rj {
-    width: 620px;
+    width: 590px;
     max-width: 88%;
 
     height: auto;
 
     display: block;
 
-    margin: 0 auto 6px;
+    margin: 0 auto 4px;
 }
 
 
@@ -123,7 +123,7 @@ header {
 
     max-width: 700px;
 
-    margin: 4px auto 14px;
+    margin: 2px auto 10px;
 
     font-size: 13px;
     font-weight: 600;
@@ -213,7 +213,7 @@ main {
 
     margin: 0 auto 40px;
 
-    padding: 30px 35px 40px;
+    padding: 24px 35px 30px;
 
     box-sizing: border-box;
 
@@ -414,9 +414,9 @@ label[for="pesquisa"] {
 .servico-item {
     max-width: 500px;
 
-    margin: 12px auto;
+    margin: 10px auto;
 
-    padding: 14px;
+    padding: 11px;
 
     background-color: var(--fundo-superficie);
 

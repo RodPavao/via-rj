@@ -1,16 +1,5 @@
 <?php
 
-$servicos = [
-    "Primeira CNH",
-    "Renovação da CNH",
-    "Licenciamento"
-];
+require_once "conexao.php";
 
-function mostrarServicos($lista) {
-
-    foreach ($lista as $servico) {
-        echo "Serviço: " . $servico . "<br>";
-    }
-}
-
-mostrarServicos($servicos);
+echo "VIA RJ conectado ao banco de dados com sucesso!";
