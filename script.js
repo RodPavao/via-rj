@@ -139,6 +139,42 @@ function mostrarServicos(listaServicos) {
 
 function mostrarDetalhes(servicoSelecionado) {
 
+    let requisitos =
+        servicoSelecionado.requisitos
+            ? `<p><strong>Requisitos:</strong><br>${servicoSelecionado.requisitos}</p>`
+            : "";
+
+    let documentos =
+        servicoSelecionado.documentos
+            ? `<p><strong>Documentos:</strong><br>${servicoSelecionado.documentos}</p>`
+            : "";
+
+    let etapas =
+        servicoSelecionado.etapas
+            ? `<p><strong>Etapas:</strong><br>${servicoSelecionado.etapas}</p>`
+            : "";
+
+    let linkOficial =
+        servicoSelecionado.link_oficial
+            ? `
+                <a
+                    href="${servicoSelecionado.link_oficial}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-oficial"
+                >
+                    Acessar serviço oficial
+                </a>
+            `
+            : "";
+
+    let temConteudoDetalhado =
+        requisitos ||
+        documentos ||
+        etapas ||
+        linkOficial;
+
+
     resultado.innerHTML = `
         <div class="detalhe-servico">
 
@@ -150,27 +186,51 @@ function mostrarDetalhes(servicoSelecionado) {
 
             <p>${servicoSelecionado.mensagem}</p>
 
-            <div class="conteudo-futuro">
-                <p>
-                    As orientações detalhadas deste serviço
-                    serão adicionadas após validação das informações.
-                </p>
-            </div>
+            ${
+                temConteudoDetalhado
+                    ? `
+                        <div class="conteudo-futuro">
+                            ${requisitos}
+                            ${documentos}
+                            ${etapas}
+                            ${linkOficial}
+                        </div>
+                    `
+                    : `
+                        <div class="conteudo-futuro">
+                            <p>
+                                As orientações detalhadas deste serviço
+                                serão adicionadas após validação das informações.
+                            </p>
+                        </div>
+                    `
+            }
 
-            <button id="voltarServicos">Voltar</button>
+            <button id="voltarServicos">
+                Voltar
+            </button>
 
         </div>
     `;
 
-    let botaoVoltar = document.getElementById("voltarServicos");
 
-    botaoVoltar.addEventListener("click", function () {
+    let botaoVoltar =
+        document.getElementById("voltarServicos");
 
-        let servicosDaCategoria =
-            obterServicosDaCategoria(servicoSelecionado.categoria);
+    botaoVoltar.addEventListener(
+        "click",
+        function () {
 
-        mostrarServicos(servicosDaCategoria);
-    });
+            let servicosDaCategoria =
+                obterServicosDaCategoria(
+                    servicoSelecionado.categoria
+                );
+
+            mostrarServicos(
+                servicosDaCategoria
+            );
+        }
+    );
 }
 
 
@@ -212,33 +272,31 @@ function pesquisarServico() {
             pontuacao += 5;
         }
 
-        for (let palavra of servico.palavrasChave) {
+                let textosPesquisa = [
+            servico.nome,
+            servico.categoria,
+            servico.mensagem
+        ];
 
-            let palavraNormalizada =
-                normalizarTexto(palavra);
+        for (let textoPesquisa of textosPesquisa) {
 
-            if (palavraNormalizada === termo) {
+            if (!textoPesquisa) {
+                continue;
+            }
+
+            let textoNormalizado =
+                normalizarTexto(textoPesquisa);
+
+            if (textoNormalizado === termo) {
 
                 pontuacao += 4;
 
             } else if (
-                termo.includes(palavraNormalizada) ||
-                palavraNormalizada.includes(termo)
+                textoNormalizado.includes(termo) ||
+                termo.includes(textoNormalizado)
             ) {
 
                 pontuacao += 2;
-
-            } else {
-
-                let distancia =
-                    calcularDistancia(
-                        termo,
-                        palavraNormalizada
-                    );
-
-                if (distancia <= 2) {
-                    pontuacao += 1;
-                }
             }
         }
 

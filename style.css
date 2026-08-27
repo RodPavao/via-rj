@@ -613,6 +613,74 @@ input:focus-visible,
     outline-offset: 3px;
 }
 
+/* =====================================================
+   DETALHES DO SERVIÇO
+===================================================== */
+
+.detalhe-servico {
+    text-align: center;
+}
+
+.categoria-detalhe {
+    font-size: 15px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+.conteudo-futuro {
+    margin-top: 24px;
+    padding: 20px;
+
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+
+    background-color: var(--fundo-secundario);
+}
+
+.conteudo-futuro p {
+    line-height: 1.6;
+}
+
+.link-oficial {
+    display: inline-block;
+
+    margin-top: 15px;
+    padding: 12px 22px;
+
+    border-radius: 8px;
+
+    background-color: var(--botao-fundo);
+    color: white;
+
+    text-decoration: none;
+    font-weight: bold;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.link-oficial:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+#voltarServicos {
+    margin-top: 22px;
+    padding: 11px 24px;
+
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+
+    background-color: transparent;
+    color: var(--texto-principal);
+
+    cursor: pointer;
+}
+
+#voltarServicos:hover {
+    background-color: var(--fundo-secundario);
+}
 
 /* =====================================================
    13. CELULAR / RESPONSIVIDADE
