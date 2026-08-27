@@ -1,0 +1,8 @@
+# Configuração local / credenciais
+.env
+.env.*
+api/config.local.php
+
+# Backups locais do banco
+*_backup.sql
+backups/
