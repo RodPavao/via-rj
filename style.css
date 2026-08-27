@@ -1,187 +1,623 @@
+/* =====================================================
+   1. TEMA CLARO
+   ===================================================== */
+
+:root {
+    --fundo-pagina: #f2f4f7;
+    --fundo-superficie: #ffffff;
+    --fundo-secundario: #e9eef5;
+
+    --texto-principal: #163a6b;
+    --texto-secundario: #52677e;
+
+    --borda: #b6c0cb;
+
+    --botao-fundo: #163a6b;
+    --botao-texto: #ffffff;
+
+    --hover-card: #e9eef5;
+
+    --foco: #f0b429;
+
+    --sombra: rgba(0, 0, 0, 0.08);
+}
+
+
+/* =====================================================
+   2. TEMA ESCURO
+   Referência: grafites suaves, sem preto absoluto
+   ===================================================== */
+
+html[data-theme="dark"] {
+    --fundo-pagina: #0f0f0f;
+
+    --fundo-superficie: #212121;
+    --fundo-secundario: #272727;
+
+    --texto-principal: #f1f1f1;
+    --texto-secundario: #aaaaaa;
+
+    --borda: #4c4c4c;
+
+    --botao-fundo: #3f3f3f;
+    --botao-texto: #f1f1f1;
+
+    /* Ferrugem usado em cards interativos */
+    --hover-card: #4a1c08;
+
+    --foco: #f0b429;
+
+    --sombra: rgba(0, 0, 0, 0.40);
+}
+
+
+/* =====================================================
+   3. BASE
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    background-color: var(--fundo-pagina);
+}
+
+
 body {
     margin: 0;
-    background-color: #f2f4f7;
-    color: #163a6b;
+
+    min-height: 100vh;
+
+    background-color: var(--fundo-pagina);
+    color: var(--texto-principal);
+
     font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
 }
 
+
+/* =====================================================
+   4. CABEÇALHO
+   ===================================================== */
 
 header {
-    background-color: #163a6b;
-    color: white;
-    padding: 30px;
+    position: relative;
+
+    background-color: var(--fundo-pagina);
+
+    padding: 18px 20px 10px;
+
     text-align: center;
+
+    overflow: visible;
+
+    transition:
+        background-color 0.25s ease;
 }
+
+
+.logo-via-rj {
+    width: 620px;
+    max-width: 88%;
+
+    height: auto;
+
+    display: block;
+
+    margin: 0 auto 6px;
+}
+
 
 .aviso-independente {
-    font-size: 14px;
-    margin-top: 12px;
-    color: #ffffff;
+    position: relative;
+
+    max-width: 700px;
+
+    margin: 4px auto 14px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--texto-secundario);
+
+    line-height: 1.4;
 }
 
+
+/* Aviso precisa ficar bem visível no dark */
+html[data-theme="dark"] .aviso-independente {
+    color: #c7c7c7;
+}
+
+
+/* =====================================================
+   5. BOTÃO DE TEMA
+   ===================================================== */
+
+.botao-tema {
+    position: fixed;
+
+    top: 18px;
+    right: 18px;
+
+    z-index: 1000;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--borda);
+
+    background-color: var(--fundo-superficie);
+    color: var(--texto-principal);
+
+    font-size: 27px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 2px 8px
+        var(--sombra);
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.botao-tema:hover {
+    transform: scale(1.08);
+
+    border-color: var(--foco);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(240, 180, 41, 0.18);
+}
+
+
+.botao-tema span {
+    display: block;
+}
+
+
+/* =====================================================
+   6. CONTEÚDO PRINCIPAL
+   ===================================================== */
+
 main {
-    max-width: 900px;
-    margin: 30px auto;
+    position: relative;
+
+    max-width: 960px;
+
+    margin: 0 auto 40px;
+
+    padding: 30px 35px 40px;
+
+    box-sizing: border-box;
+
+    background-color: var(--fundo-superficie);
+
+    border-radius: 24px;
+
+    box-shadow: 0 6px 24px var(--sombra);
+
     text-align: center;
+
+    transition:
+        background-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+main h2 {
+    color: var(--texto-principal);
+}
+
+main > h2:first-child {
+    margin-top: 0;
+    margin-bottom: 22px;
+
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   7. PESQUISA
+   ===================================================== */
+
+label[for="pesquisa"] {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 14px;
+
+    color: var(--texto-secundario);
+}
+
+
+.area-pesquisa {
+    display: flex;
+
+    justify-content: center;
+    align-items: stretch;
+
+    gap: 10px;
 }
 
 
 #pesquisa {
     width: 60%;
     max-width: 500px;
+
     padding: 12px;
+
+    border: 1px solid var(--borda);
+
+    border-radius: 6px;
+
+    background-color: var(--fundo-superficie);
+    color: var(--texto-principal);
+
     font-size: 16px;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-label[for="pesquisa"] {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #163a6b;
+
+#pesquisa::placeholder {
+    color: var(--texto-secundario);
 }
+
 
 #botaoPesquisar {
-    padding: 12px 20px;
-    margin-left: 8px;
+    padding:
+        12px
+        20px;
+
+    border: 1px solid transparent;
+
     border-radius: 8px;
-    border: none;
-    background-color: #163a6b;
-    color: white;
+
+    background-color: var(--botao-fundo);
+    color: var(--botao-texto);
+
     font-size: 16px;
+
     cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background-color 0.2s ease;
 }
+
 
 #botaoPesquisar:hover {
-    background-color: #0f2d55;
+    transform: translateY(-1px);
 }
 
+
+/* =====================================================
+   8. CATEGORIAS
+   ===================================================== */
 
 #servicos {
     max-width: 900px;
+
     margin: 30px auto;
+
     text-align: center;
 }
 
 
 .lista-categorias {
     display: flex;
+
     justify-content: center;
+
     gap: 15px;
+
     flex-wrap: wrap;
 }
 
 
 .categoria {
     width: 180px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    border: 1px solid #163a6b;
-    background-color: white;
-    color: #163a6b;
+
+    padding:
+        15px
+        20px;
+
+    border-radius: 9px;
+
+    border: 1px solid var(--borda);
+
+    background-color: var(--fundo-superficie);
+    color: var(--texto-principal);
+
     font-size: 16px;
+
     cursor: pointer;
+
+    box-shadow:
+        0 1px 3px
+        var(--sombra);
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
 }
 
+
 .categoria:hover {
-    background-color: #163a6b;
-    color: white;
+    background-color: var(--hover-card);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 12px
+        var(--sombra);
 }
+
+
+/* Categoria atualmente aberta */
+.categoria.ativa {
+    background-color: var(--hover-card);
+
+    color: var(--texto-principal);
+
+    border-color: var(--foco);
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   9. RESULTADOS
+   ===================================================== */
 
 #resultado {
     max-width: 900px;
+
     margin: 30px auto;
 }
 
 
 .servico-item {
-    background-color: white;
-    border: 1px solid #163a6b;
-    border-radius: 8px;
-    padding: 6px;
-    margin: 12px auto;
     max-width: 500px;
+
+    margin: 12px auto;
+
+    padding: 14px;
+
+    background-color: var(--fundo-superficie);
+
+    border: 1px solid var(--borda);
+
+    border-radius: 10px;
+
     text-align: center;
+
     cursor: pointer;
+
+    box-shadow:
+        0 1px 4px
+        var(--sombra);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
 }
+
 
 .servico-item:hover {
-    background-color: #e9eef5;
+    background-color: var(--hover-card);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 12px
+        var(--sombra);
 }
 
+
 .servico-item p {
-    margin: 8px 0;
+    margin:
+        8px
+        0;
+
+    color: var(--texto-secundario);
 }
+
 
 .servico-item strong {
     display: block;
-    margin: 6px 0;
+
+    margin:
+        6px
+        0;
+
+    color: var(--texto-principal);
 }
+
+
+/* No ferrugem, texto secundário também precisa
+   continuar legível. */
+
+html[data-theme="dark"]
+.servico-item:hover p {
+
+    color: #e6e6e6;
+}
+
+
+/* =====================================================
+   10. DETALHES DO SERVIÇO
+   ===================================================== */
 
 .detalhe-servico {
     max-width: 500px;
+
     margin: 20px auto;
+
     padding: 20px;
-    background-color: white;
-    border: 1px solid #163a6b;
-    border-radius: 8px;
+
+    background-color: var(--fundo-superficie);
+
+    border: 1px solid var(--borda);
+
+    border-radius: 10px;
+
     text-align: center;
+
+    box-shadow:
+        0 2px 8px
+        var(--sombra);
 }
+
 
 .categoria-detalhe {
     font-size: 15px;
+
     font-weight: bold;
+
+    color: var(--texto-secundario);
 }
+
 
 .conteudo-futuro {
-    margin: 20px 0;
+    margin:
+        20px
+        0;
+
     padding: 12px;
-    background-color: #f2f4f7;
-    border-radius: 6px;
+
+    background-color: var(--fundo-secundario);
+
+    border-radius: 8px;
 }
+
 
 #voltarServicos {
-    padding: 8px 18px;
-    border: 1px solid #163a6b;
-    border-radius: 6px;
-    background-color: white;
-    color: #163a6b;
+    padding:
+        9px
+        18px;
+
+    border: 1px solid var(--borda);
+
+    border-radius: 7px;
+
+    background-color: var(--fundo-superficie);
+    color: var(--texto-principal);
+
     cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease;
 }
 
+
 #voltarServicos:hover {
-    background-color: #163a6b;
-    color: white;
+    background-color: var(--hover-card);
+
+    transform: translateY(-1px);
 }
+
+
+/* =====================================================
+   11. SUGESTÕES
+   ===================================================== */
 
 #sugestoes {
     max-width: 500px;
-    margin: 8px auto 0;
+
+    margin:
+        8px
+        auto
+        0;
 }
 
+
 .sugestao-item {
-    background-color: white;
-    border: 1px solid #163a6b;
-    border-top: none;
     padding: 10px;
+
+    background-color: var(--fundo-superficie);
+
+    border: 1px solid var(--borda);
+    border-top: none;
+
+    color: var(--texto-principal);
+
     font-size: 15px;
+
     cursor: pointer;
 }
 
+
 .sugestao-item:first-child {
-    border-top: 1px solid #163a6b;
+    border-top:
+        1px solid
+        var(--borda);
 }
+
 
 .sugestao-item:hover {
-    background-color: #e9eef5;
+    background-color: var(--hover-card);
 }
 
-button:focus,
-input:focus,
-.servico-item:focus {
-    outline: 3px solid #4da3ff;
-    outline-offset: 2px;
+
+/* =====================================================
+   12. ACESSIBILIDADE / FOCO
+   ===================================================== */
+
+button:focus-visible,
+input:focus-visible,
+.servico-item:focus-visible,
+.sugestao-item:focus-visible {
+
+    outline:
+        3px solid
+        var(--foco);
+
+    outline-offset: 3px;
 }
+
+
+/* =====================================================
+   13. CELULAR / RESPONSIVIDADE
+   Android + iPhone
+   ===================================================== */
 
 @media (max-width: 600px) {
 
@@ -189,59 +625,158 @@ input:focus,
         font-size: 18px;
     }
 
+
     header {
-        padding: 20px 15px;
+    padding:
+        12px
+        48px
+        10px;
     }
+
+
+    .logo-via-rj {
+    width: 94%;
+
+    max-width: 460px;
+
+    height: auto;
+
+    margin:
+        0px
+        auto
+        6px;
+}
+
+
+    .aviso-independente {
+    max-width: 420px;
+
+    margin:
+        4px
+        auto
+        12px;
+
+    padding:
+        0
+        8px;
+
+    font-size: 12px;
+
+    line-height: 1.35;
+}
+
+
+    .botao-tema {
+        width: 40px;
+        height: 40px;
+
+        top: 10px;
+        right: 10px;
+
+        font-size: 24px;
+    }
+
 
     main {
-        margin: 20px 15px;
+    width: calc(100% - 20px);
+
+    margin: 0 10px 25px;
+
+    padding: 28px 16px 30px;
+
+    box-sizing: border-box;
+
+    border-radius: 18px;
     }
+
+
+    main h2 {
+        font-size: 27px;
+    }
+
+
+    .area-pesquisa {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
 
     #pesquisa {
-        width: 90%;
+        width: 100%;
+
         max-width: none;
-        box-sizing: border-box;
     }
+
 
     #botaoPesquisar {
-        margin-left: 0;
-        margin-top: 10px;
-        width: 90%;
+        width: 100%;
     }
 
+
     #servicos {
-        margin: 20px 15px;
+        margin:
+            20px
+            0;
     }
+
+
+    .lista-categorias {
+        gap: 10px;
+    }
+
 
     .categoria {
         width: 100%;
-        max-width: 300px;
+
+        max-width: 320px;
+
+        min-height: 54px;
     }
+
 
     #resultado {
-        margin: 20px 15px;
+        margin:
+            20px
+            0;
     }
 
-    .servico-item {
-        max-width: 100%;
-        box-sizing: border-box;
-    }
 
+    .servico-item,
     .detalhe-servico {
+
+        width: 100%;
+
         max-width: 100%;
-        box-sizing: border-box;
     }
+
 
     #sugestoes {
-        width: 90%;
+        width: 100%;
+
         max-width: none;
     }
 }
 
-button:focus,
-input:focus,
-.servico-item:focus,
-.sugestao-item:focus {
-    outline: 3px solid #f0b429;
-    outline-offset: 3px;
+
+/* =====================================================
+   14. TELAS MUITO PEQUENAS
+   ===================================================== */
+
+@media (max-width: 380px) {
+
+    header {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+
+
+    main h2 {
+        font-size: 24px;
+    }
+
+
+    .aviso-independente {
+        font-size: 11px;
+    }
 }

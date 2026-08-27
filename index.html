@@ -1,56 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>VIA RJ - Serviços de Trânsito</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
 
-<header>
-    <h1>VIA RJ</h1>
-    <p>Seu caminho para os serviços de trânsito</p>
-    <p class="aviso-independente">
-    Projeto independente e acadêmico. Não é um canal oficial do DETRAN-RJ.
-</p>
-</header>
-
-<main>
-    <h2>Como podemos ajudar?</h2>
-
-<label for="pesquisa">Qual serviço você procura?</label>
-
-    <input
-        type="text"
-        id="pesquisa"
-        placeholder="Digite o serviço que você procura"
+    <!-- BOTÃO DE TEMA -->
+    <button
+        id="botaoTema"
+        class="botao-tema"
+        type="button"
+        aria-label="Ativar modo escuro"
+        title="Alternar modo claro/escuro"
     >
+        <span aria-hidden="true">◐</span>
+    </button>
 
-    <button id="botaoPesquisar">Pesquisar</button>
-    <div id="sugestoes" aria-live="polite"></div>
+
+    <!-- CABEÇALHO -->
+    <header>
+
+        <img
+            src="images/logo-via-rj.png"
+            alt="VIA RJ - Seu caminho para os serviços de trânsito"
+            class="logo-via-rj"
+        >
+
+        <p class="aviso-independente">
+            Projeto independente e acadêmico.
+            Não é um canal oficial do DETRAN-RJ.
+        </p>
+
+    </header>
 
 
-<section id="servicos">
-    <h2>Serviços</h2>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
 
-    <div class="lista-categorias">
-        <button class="categoria" data-categoria="Habilitação">Habilitação</button>
-        <button class="categoria" data-categoria="Veículos">Veículos</button>
-        <button class="categoria" data-categoria="Identificação">Identificação</button>
-        <button class="categoria" data-categoria="Infrações">Infrações</button>
-    </div>
+        <h2>Como podemos ajudar?</h2>
 
-</section>
+        <label for="pesquisa">
+            Qual serviço você procura?
+        </label>
 
-<section id="resultado" aria-live="polite"></section>
+        <div class="area-pesquisa">
 
-</main>
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Digite o serviço que você procura"
+            >
 
-<script src="script.js"></script>
+            <button id="botaoPesquisar">
+                Pesquisar
+            </button>
+
+        </div>
+
+        <div id="sugestoes"></div>
+
+
+        <!-- CATEGORIAS -->
+        <section id="servicos">
+
+            <h2>Serviços</h2>
+
+            <div class="lista-categorias">
+
+                <button
+                    class="categoria"
+                    data-categoria="Habilitação"
+                >
+                    Habilitação
+                </button>
+
+                <button
+                    class="categoria"
+                    data-categoria="Veículos"
+                >
+                    Veículos
+                </button>
+
+                <button
+                    class="categoria"
+                    data-categoria="Identificação"
+                >
+                    Identificação
+                </button>
+
+                <button
+                    class="categoria"
+                    data-categoria="Infrações"
+                >
+                    Infrações
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULTADOS -->
+        <section
+            id="resultado"
+            aria-live="polite"
+        ></section>
+
+    </main>
+
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>

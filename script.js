@@ -3,6 +3,7 @@
 // ======================================================
 
 let servicos = [];
+let categoriaAberta = null;
 
 let resultado = document.getElementById("resultado");
 let campoPesquisa = document.getElementById("pesquisa");
@@ -320,9 +321,40 @@ for (let botao of botoesCategoria) {
         let categoriaEscolhida =
             botao.dataset.categoria;
 
+
+        // Se clicou novamente na categoria aberta,
+        // fecha os resultados.
+        if (categoriaAberta === categoriaEscolhida) {
+
+            resultado.innerHTML = "";
+
+            categoriaAberta = null;
+
+            botao.classList.remove("ativa");
+
+            return;
+        }
+
+
+        // Remove o estado visual dos outros botões.
+        for (let outroBotao of botoesCategoria) {
+
+            outroBotao.classList.remove("ativa");
+        }
+
+
+        // Marca a nova categoria como aberta.
+        categoriaAberta = categoriaEscolhida;
+
+        botao.classList.add("ativa");
+
+
+        // Busca os serviços da categoria.
         let servicosDaCategoria =
             obterServicosDaCategoria(categoriaEscolhida);
 
+
+        // Mostra os serviços.
         mostrarServicos(servicosDaCategoria);
     });
 }
@@ -458,4 +490,74 @@ document.addEventListener(
     }
 );
 
+// ======================================================
+// 12. TEMA CLARO / ESCURO
+// ======================================================
+
+let botaoTema = document.getElementById("botaoTema");
+
+
+// --------------------------------------
+// APLICAR TEMA
+// --------------------------------------
+
+function aplicarTema(tema) {
+
+    document.documentElement
+        .setAttribute("data-theme", tema);
+
+    localStorage.setItem("tema", tema);
+
+    if (tema === "dark") {
+
+        botaoTema.setAttribute(
+            "aria-label",
+            "Ativar modo claro"
+        );
+
+    } else {
+
+        botaoTema.setAttribute(
+            "aria-label",
+            "Ativar modo escuro"
+        );
+    }
+}
+
+
+// --------------------------------------
+// CARREGAR TEMA SALVO
+// --------------------------------------
+
+let temaSalvo = localStorage.getItem("tema");
+
+if (temaSalvo === "dark") {
+
+    aplicarTema("dark");
+
+} else {
+
+    aplicarTema("light");
+}
+
+
+// --------------------------------------
+// TROCAR TEMA AO CLICAR
+// --------------------------------------
+
+botaoTema.addEventListener("click", function () {
+
+    let temaAtual =
+        document.documentElement
+            .getAttribute("data-theme");
+
+    if (temaAtual === "dark") {
+
+        aplicarTema("light");
+
+    } else {
+
+        aplicarTema("dark");
+    }
+});
 
