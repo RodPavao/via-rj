@@ -106,7 +106,7 @@ if ($metodo === "GET") {
             FROM servicos
             WHERE categoria = ?
             AND ativo = 1
-            ORDER BY nome
+            ORDER BY ordem ASC, nome ASC
         ";
 
         $stmt = $conexao->prepare($sql);
@@ -141,7 +141,7 @@ if ($metodo === "GET") {
                 ativo
             FROM servicos
             WHERE ativo = 1
-            ORDER BY nome
+            ORDER BY ordem ASC, nome ASC
         ";
 
         $resultado =
