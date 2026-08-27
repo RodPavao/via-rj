@@ -619,3 +619,190 @@ botaoTema.addEventListener("click", function () {
     }
 });
 
+// ======================================================
+// 13. ACESSIBILIDADE
+// ======================================================
+
+let botaoAcessibilidade =
+    document.getElementById("botaoAcessibilidade");
+
+let painelAcessibilidade =
+    document.getElementById("painelAcessibilidade");
+
+let botaoAumentarTexto =
+    document.getElementById("botaoAumentarTexto");
+
+let botaoReduzirMovimento =
+    document.getElementById("botaoReduzirMovimento");
+
+let botaoResetarAcessibilidade =
+    document.getElementById("botaoResetarAcessibilidade");
+
+
+// --------------------------------------
+// ABRIR / FECHAR PAINEL
+// --------------------------------------
+
+botaoAcessibilidade.addEventListener(
+    "click",
+    function () {
+
+        let painelAberto =
+            !painelAcessibilidade.hidden;
+
+        painelAcessibilidade.hidden =
+            painelAberto;
+
+        botaoAcessibilidade.setAttribute(
+            "aria-expanded",
+            String(!painelAberto)
+        );
+    }
+);
+
+
+// --------------------------------------
+// AUMENTAR / NORMALIZAR TEXTO
+// --------------------------------------
+
+botaoAumentarTexto.addEventListener(
+    "click",
+    function () {
+
+        document.documentElement
+            .classList
+            .toggle("texto-ampliado");
+
+        let ativo =
+            document.documentElement
+                .classList
+                .contains("texto-ampliado");
+
+        localStorage.setItem(
+            "textoAmpliado",
+            ativo
+        );
+    }
+);
+
+
+// --------------------------------------
+// REDUZIR MOVIMENTO
+// --------------------------------------
+
+botaoReduzirMovimento.addEventListener(
+    "click",
+    function () {
+
+        document.documentElement
+            .classList
+            .toggle("reduzir-movimento");
+
+        let ativo =
+            document.documentElement
+                .classList
+                .contains("reduzir-movimento");
+
+        botaoReduzirMovimento.setAttribute(
+            "aria-pressed",
+            String(ativo)
+        );
+
+        localStorage.setItem(
+            "reduzirMovimento",
+            ativo
+        );
+    }
+);
+
+
+// --------------------------------------
+// RESTAURAR PADRÃO
+// --------------------------------------
+
+botaoResetarAcessibilidade.addEventListener(
+    "click",
+    function () {
+
+        document.documentElement
+            .classList
+            .remove(
+                "texto-ampliado",
+                "reduzir-movimento"
+            );
+
+        botaoReduzirMovimento.setAttribute(
+            "aria-pressed",
+            "false"
+        );
+
+        localStorage.removeItem(
+            "textoAmpliado"
+        );
+
+        localStorage.removeItem(
+            "reduzirMovimento"
+        );
+    }
+);
+
+
+// --------------------------------------
+// CARREGAR PREFERÊNCIAS SALVAS
+// --------------------------------------
+
+if (
+    localStorage.getItem(
+        "textoAmpliado"
+    ) === "true"
+) {
+
+    document.documentElement
+        .classList
+        .add("texto-ampliado");
+}
+
+
+if (
+    localStorage.getItem(
+        "reduzirMovimento"
+    ) === "true"
+) {
+
+    document.documentElement
+        .classList
+        .add("reduzir-movimento");
+
+    botaoReduzirMovimento.setAttribute(
+        "aria-pressed",
+        "true"
+    );
+}
+
+
+// --------------------------------------
+// ESC FECHA O PAINEL
+// --------------------------------------
+
+document.addEventListener(
+    "keydown",
+    function (evento) {
+
+        if (
+            evento.key === "Escape" &&
+            !painelAcessibilidade.hidden
+        ) {
+
+            painelAcessibilidade.hidden =
+                true;
+
+            botaoAcessibilidade.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            botaoAcessibilidade.focus();
+        }
+    }
+);
+
