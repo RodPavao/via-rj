@@ -1,9 +1,20 @@
 <?php
 
-$host = "localhost";
-$usuario = "root";
-$senha = "";
-$banco = "via_rj";
+$configLocal = __DIR__ . '/config.local.php';
+
+if (file_exists($configLocal)) {
+    $config = require $configLocal;
+
+    $host = $config['host'];
+    $usuario = $config['usuario'];
+    $senha = $config['senha'];
+    $banco = $config['banco'];
+} else {
+    $host = "localhost";
+    $usuario = "root";
+    $senha = "";
+    $banco = "via_rj";
+}
 
 $conexao = new mysqli(
     $host,
