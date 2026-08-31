@@ -1,1174 +1,730 @@
-/* =====================================================
-   1. TEMA CLARO
-   ===================================================== */
+/* ==========================================================
+   BLOCO 1 — CORES E MEDIDAS DO TEMA CLARO
+   Variáveis centralizam decisões visuais para evitar valores espalhados pelo arquivo.
+   ========================================================== */
 
 :root {
-    --fundo-pagina: #f2f4f7;
+    --fundo-pagina: #eef3f8;
     --fundo-superficie: #ffffff;
-    --fundo-secundario: #e9eef5;
-
+    --fundo-secundario: #e8f0f8;
+    --fundo-destaque: #eaf4ff;
     --texto-principal: #163a6b;
     --texto-secundario: #52677e;
-
-    --borda: #b6c0cb;
-
-    --botao-fundo: #163a6b;
+    --borda: #b9c7d6;
+    --azul: #163a6b;
+    --azul-hover: #0e2c54;
     --botao-texto: #ffffff;
-
-    --hover-card: #e9eef5;
-
     --foco: #f0b429;
-
-    --sombra: rgba(0, 0, 0, 0.08);
+    --sucesso: #14735d;
+    --alerta-fundo: #fff7df;
+    --sombra: rgba(22, 58, 107, 0.12);
 }
 
 
-/* =====================================================
-   2. TEMA ESCURO
-   Referência: grafites suaves, sem preto absoluto
-   ===================================================== */
+/* ==========================================================
+   BLOCO 2 — TEMA ESCURO
+   Substitui somente variáveis; os componentes continuam usando as mesmas regras.
+   ========================================================== */
 
 html[data-theme="dark"] {
-    --fundo-pagina: #0f0f0f;
-
-    --fundo-superficie: #212121;
-    --fundo-secundario: #272727;
-
-    --texto-principal: #f1f1f1;
-    --texto-secundario: #aaaaaa;
-
-    --borda: #4c4c4c;
-
-    --botao-fundo: #3f3f3f;
-    --botao-texto: #f1f1f1;
-
-    /* Ferrugem usado em cards interativos */
-    --hover-card: #4a1c08;
-
-    --foco: #f0b429;
-
-    --sombra: rgba(0, 0, 0, 0.40);
+    --fundo-pagina: #11151a;
+    --fundo-superficie: #20262d;
+    --fundo-secundario: #29333d;
+    --fundo-destaque: #1d3245;
+    --texto-principal: #f2f6fa;
+    --texto-secundario: #bdc9d4;
+    --borda: #4d5b69;
+    --azul: #d4e8ff;
+    --azul-hover: #ffffff;
+    --botao-texto: #13263b;
+    --sucesso: #70d7ba;
+    --alerta-fundo: #453b20;
+    --sombra: rgba(0, 0, 0, 0.42);
 }
 
 
-/* =====================================================
-   3. BASE
-   ===================================================== */
+/* ==========================================================
+   BLOCO 3 — BASE E TIPOGRAFIA
+   Define comportamento global, fonte legível e estilos compartilhados de formulários.
+   ========================================================== */
 
 * {
     box-sizing: border-box;
 }
 
-
 html {
-    background-color: var(--fundo-pagina);
+    background: var(--fundo-pagina);
+    scroll-behavior: smooth;
 }
-
 
 body {
-    margin: 0;
-
     min-height: 100vh;
-
-    background-color: var(--fundo-pagina);
+    margin: 0;
+    background:
+        radial-gradient(circle at 15% 5%, rgba(56, 132, 201, 0.10), transparent 30%),
+        var(--fundo-pagina);
     color: var(--texto-principal);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    line-height: 1.55;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
 
-    font-size: 20px;
+button,
+input,
+textarea {
+    font: inherit;
+}
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
 
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease;
+button {
+    cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+p {
+    overflow-wrap: break-word;
 }
 
 
-/* =====================================================
-   4. CABEÇALHO
-   ===================================================== */
+/* ==========================================================
+   BLOCO 4 — CABEÇALHO E MARCA
+   Preserva a identidade VIA RJ e mantém o aviso independente sempre visível.
+   ========================================================== */
 
 header {
-    position: relative;
-
-    background-color: var(--fundo-pagina);
-
-    padding: 18px 20px 10px;
-
+    padding: 22px 130px 14px;
     text-align: center;
-
-    overflow: visible;
-
-    transition:
-        background-color 0.25s ease;
 }
 
-
 .logo-via-rj {
-    width: 590px;
-    max-width: 88%;
-
-    height: auto;
-
     display: block;
-
+    width: 560px;
+    max-width: 88%;
+    height: auto;
     margin: 0 auto 4px;
 }
 
-
 .aviso-independente {
-    position: relative;
-
-    max-width: 700px;
-
-    margin: 2px auto 10px;
-
-    font-size: 13px;
-    font-weight: 600;
-
+    max-width: 720px;
+    margin: 4px auto 10px;
     color: var(--texto-secundario);
-
-    line-height: 1.4;
-}
-
-
-/* Aviso precisa ficar bem visível no dark */
-html[data-theme="dark"] .aviso-independente {
-    color: #c7c7c7;
-}
-
-
-/* =====================================================
-   5. BOTÃO DE TEMA
-   ===================================================== */
-
-.botao-tema {
-    position: fixed;
-
-    top: 18px;
-    right: 18px;
-
-    z-index: 1000;
-
-    width: 44px;
-    height: 44px;
-
-    padding: 0;
-
-    border-radius: 50%;
-
-    border: 1px solid var(--borda);
-
-    background-color: var(--fundo-superficie);
-    color: var(--texto-principal);
-
-    font-size: 27px;
-    line-height: 1;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow:
-        0 2px 8px
-        var(--sombra);
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.botao-tema:hover {
-    transform: scale(1.08);
-
-    border-color: var(--foco);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(240, 180, 41, 0.18);
-}
-
-
-.botao-tema span {
-    display: block;
-}
-
-
-/* =====================================================
-   6. CONTEÚDO PRINCIPAL
-   ===================================================== */
-
-main {
-    position: relative;
-
-    max-width: 960px;
-
-    margin: 0 auto 40px;
-
-    padding: 24px 35px 30px;
-
-    box-sizing: border-box;
-
-    background-color: var(--fundo-superficie);
-
-    border-radius: 24px;
-
-    box-shadow: 0 6px 24px var(--sombra);
-
-    text-align: center;
-
-    transition:
-        background-color 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-
-main h2 {
-    color: var(--texto-principal);
-}
-
-main > h2:first-child {
-    margin-top: 0;
-    margin-bottom: 22px;
-
-    font-size: 26px;
+    font-size: 13px;
     font-weight: 700;
 }
 
-/* =====================================================
-   7. PESQUISA
-   ===================================================== */
 
-label[for="pesquisa"] {
-    display: block;
+/* ==========================================================
+   BLOCO 5 — CONTROLES FLUTUANTES
+   Posiciona tema e acessibilidade sem interferir na leitura do conteúdo principal.
+   ========================================================== */
 
-    margin-bottom: 6px;
-
-    font-size: 14px;
-
-    color: var(--texto-secundario);
-}
-
-
-.area-pesquisa {
-    display: flex;
-
-    justify-content: center;
-    align-items: stretch;
-
-    gap: 10px;
-}
-
-
-#pesquisa {
-    width: 60%;
-    max-width: 500px;
-
-    padding: 12px;
-
+.botao-tema,
+.botao-acessibilidade {
+    position: fixed;
+    top: 18px;
+    z-index: 1000;
+    display: grid;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    place-items: center;
     border: 1px solid var(--borda);
-
-    border-radius: 6px;
-
-    background-color: var(--fundo-superficie);
+    border-radius: 50%;
+    background: var(--fundo-superficie);
     color: var(--texto-principal);
-
-    font-size: 16px;
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+    box-shadow: 0 3px 12px var(--sombra);
 }
 
-
-#pesquisa::placeholder {
-    color: var(--texto-secundario);
+.botao-tema {
+    right: 18px;
+    font-size: 27px;
 }
-
-
-#botaoPesquisar {
-    padding:
-        12px
-        20px;
-
-    border: 1px solid transparent;
-
-    border-radius: 8px;
-
-    background-color: var(--botao-fundo);
-    color: var(--botao-texto);
-
-    font-size: 16px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        background-color 0.2s ease;
-}
-
-
-#botaoPesquisar:hover {
-    transform: translateY(-1px);
-}
-
-
-/* =====================================================
-   8. CATEGORIAS
-   ===================================================== */
-
-#servicos {
-    max-width: 900px;
-
-    margin: 30px auto;
-
-    text-align: center;
-}
-
-
-.lista-categorias {
-    display: flex;
-
-    justify-content: center;
-
-    gap: 15px;
-
-    flex-wrap: wrap;
-}
-
-
-.categoria {
-    width: 180px;
-
-    padding:
-        15px
-        20px;
-
-    border-radius: 9px;
-
-    border: 1px solid var(--borda);
-
-    background-color: var(--fundo-superficie);
-    color: var(--texto-principal);
-
-    font-size: 16px;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 1px 3px
-        var(--sombra);
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.categoria:hover {
-    background-color: var(--hover-card);
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 4px 12px
-        var(--sombra);
-}
-
-
-/* Categoria atualmente aberta */
-.categoria.ativa {
-    background-color: var(--hover-card);
-
-    color: var(--texto-principal);
-
-    border-color: var(--foco);
-
-    font-weight: 600;
-}
-
-
-/* =====================================================
-   9. RESULTADOS
-   ===================================================== */
-
-#resultado {
-    max-width: 900px;
-
-    margin: 30px auto;
-}
-
-
-.servico-item {
-    max-width: 500px;
-
-    margin: 10px auto;
-
-    padding: 11px;
-
-    background-color: var(--fundo-superficie);
-
-    border: 1px solid var(--borda);
-
-    border-radius: 10px;
-
-    text-align: center;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 1px 4px
-        var(--sombra);
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.servico-item:hover {
-    background-color: var(--hover-card);
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 4px 12px
-        var(--sombra);
-}
-
-
-.servico-item p {
-    margin:
-        8px
-        0;
-
-    color: var(--texto-secundario);
-}
-
-
-.servico-item strong {
-    display: block;
-
-    margin:
-        6px
-        0;
-
-    color: var(--texto-principal);
-}
-
-
-/* No ferrugem, texto secundário também precisa
-   continuar legível. */
-
-html[data-theme="dark"]
-.servico-item:hover p {
-
-    color: #e6e6e6;
-}
-
-
-/* =====================================================
-   10. DETALHES DO SERVIÇO
-   ===================================================== */
-
-.detalhe-servico {
-    max-width: 500px;
-
-    margin: 20px auto;
-
-    padding: 20px;
-
-    background-color: var(--fundo-superficie);
-
-    border: 1px solid var(--borda);
-
-    border-radius: 10px;
-
-    text-align: center;
-
-    box-shadow:
-        0 2px 8px
-        var(--sombra);
-}
-
-
-.categoria-detalhe {
-    font-size: 15px;
-
-    font-weight: bold;
-
-    color: var(--texto-secundario);
-}
-
-
-.conteudo-futuro {
-    margin:
-        20px
-        0;
-
-    padding: 12px;
-
-    background-color: var(--fundo-secundario);
-
-    border-radius: 8px;
-}
-
-
-#voltarServicos {
-    padding:
-        9px
-        18px;
-
-    border: 1px solid var(--borda);
-
-    border-radius: 7px;
-
-    background-color: var(--fundo-superficie);
-    color: var(--texto-principal);
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.15s ease;
-}
-
-
-#voltarServicos:hover {
-    background-color: var(--hover-card);
-
-    transform: translateY(-1px);
-}
-
-
-/* =====================================================
-   11. SUGESTÕES
-   ===================================================== */
-
-#sugestoes {
-    max-width: 500px;
-
-    margin:
-        8px
-        auto
-        0;
-}
-
-
-.sugestao-item {
-    padding: 10px;
-
-    background-color: var(--fundo-superficie);
-
-    border: 1px solid var(--borda);
-    border-top: none;
-
-    color: var(--texto-principal);
-
-    font-size: 15px;
-
-    cursor: pointer;
-}
-
-
-.sugestao-item:first-child {
-    border-top:
-        1px solid
-        var(--borda);
-}
-
-
-.sugestao-item:hover {
-    background-color: var(--hover-card);
-}
-
-
-/* =====================================================
-   12. ACESSIBILIDADE / FOCO
-   ===================================================== */
-
-button:focus-visible,
-input:focus-visible,
-.servico-item:focus-visible,
-.sugestao-item:focus-visible {
-
-    outline:
-        3px solid
-        var(--foco);
-
-    outline-offset: 3px;
-}
-
-/* =====================================================
-   DETALHES DO SERVIÇO
-===================================================== */
-
-.detalhe-servico {
-    text-align: center;
-}
-
-.categoria-detalhe {
-    font-size: 15px;
-    opacity: 0.7;
-    margin-bottom: 20px;
-}
-
-.conteudo-futuro {
-    margin-top: 24px;
-    padding: 20px;
-
-    border: 1px solid var(--borda);
-    border-radius: 12px;
-
-    background-color: var(--fundo-secundario);
-}
-
-.conteudo-futuro p {
-    line-height: 1.6;
-}
-
-.link-oficial {
-    display: inline-block;
-
-    margin-top: 15px;
-    padding: 12px 22px;
-
-    border-radius: 8px;
-
-    background-color: var(--botao-fundo);
-    color: white;
-
-    text-decoration: none;
-    font-weight: bold;
-
-    transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-}
-
-.link-oficial:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-}
-
-#voltarServicos {
-    margin-top: 22px;
-    padding: 11px 24px;
-
-    border: 1px solid var(--borda);
-    border-radius: 8px;
-
-    background-color: transparent;
-    color: var(--texto-principal);
-
-    cursor: pointer;
-}
-
-#voltarServicos:hover {
-    background-color: var(--fundo-secundario);
-}
-
-/* =====================================================
-   13. ACESSOS RÁPIDOS + ACESSIBILIDADE
-   ===================================================== */
-
-
-/* --------------------------------------
-   ÍCONES DAS CATEGORIAS
-   -------------------------------------- */
-
-.categoria {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 10px;
-}
-
-.icone-categoria {
-    width: 24px;
-    height: 24px;
-
-    flex-shrink: 0;
-
-    fill: none;
-
-    stroke: currentColor;
-    stroke-width: 1.8;
-
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-
-/* --------------------------------------
-   ACESSOS RÁPIDOS
-   -------------------------------------- */
-
-.acessos-rapidos {
-    margin:
-        30px
-        auto
-        10px;
-
-    max-width: 820px;
-}
-
-.acessos-rapidos h3 {
-    margin-bottom: 15px;
-
-    color: var(--texto-principal);
-
-    font-size: 20px;
-}
-
-.lista-acessos-rapidos {
-    display: flex;
-
-    justify-content: center;
-
-    gap: 12px;
-
-    flex-wrap: wrap;
-}
-
-.acesso-rapido {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding:
-        11px
-        16px;
-
-    border:
-        1px
-        solid
-        var(--borda);
-
-    border-radius: 10px;
-
-    background-color:
-        var(--fundo-secundario);
-
-    color:
-        var(--texto-principal);
-
-    text-decoration: none;
-
-    font-size: 15px;
-
-    transition:
-        background-color 0.20s ease,
-        transform 0.15s ease,
-        border-color 0.20s ease;
-}
-
-.acesso-rapido:hover {
-    background-color:
-        var(--hover-card);
-
-    transform:
-        translateY(-2px);
-}
-
-
-/* --------------------------------------
-   BOTÃO DE ACESSIBILIDADE
-   -------------------------------------- */
 
 .area-acessibilidade {
-    position: absolute;
-
+    position: fixed;
     top: 18px;
     right: 78px;
-
-    z-index: 20;
+    z-index: 1001;
 }
 
 .botao-acessibilidade {
-    width: 46px;
-    height: 46px;
-
-    border:
-        1px
-        solid
-        var(--borda);
-
-    border-radius: 50%;
-
-    background-color:
-        var(--fundo-superficie);
-
-    color:
-        var(--texto-principal);
-
-    font-size: 16px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    box-shadow:
-        0
-        3px
-        10px
-        var(--sombra);
+    position: static;
+    font-size: 15px;
+    font-weight: 800;
 }
 
 .painel-acessibilidade {
     position: absolute;
-
     top: 56px;
     right: 0;
-
-    width: 210px;
-
-    padding: 14px;
-
-    border:
-        1px
-        solid
-        var(--borda);
-
-    border-radius: 12px;
-
-    background-color:
-        var(--fundo-superficie);
-
-    box-shadow:
-        0
-        8px
-        24px
-        var(--sombra);
-
+    width: 230px;
+    padding: 15px;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: var(--fundo-superficie);
+    box-shadow: 0 10px 28px var(--sombra);
     text-align: left;
 }
 
 .painel-acessibilidade strong {
     display: block;
-
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .painel-acessibilidade button {
     width: 100%;
-
-    margin-top: 7px;
-
-    padding:
-        9px
-        10px;
-
-    border:
-        1px
-        solid
-        var(--borda);
-
+    margin-top: 8px;
+    padding: 9px;
+    border: 1px solid var(--borda);
     border-radius: 8px;
+    background: var(--fundo-secundario);
+    color: var(--texto-principal);
+}
 
-    background-color:
-        var(--fundo-secundario);
 
-    color:
-        var(--texto-principal);
+/* ==========================================================
+   BLOCO 6 — SUPERFÍCIE PRINCIPAL
+   Organiza o conteúdo numa área central que funciona bem em telas amplas e pequenas.
+   ========================================================== */
 
+main {
+    width: calc(100% - 32px);
+    max-width: 1040px;
+    margin: 0 auto 48px;
+    padding: 36px 44px 42px;
+    border: 1px solid rgba(185, 199, 214, 0.55);
+    border-radius: 26px;
+    background: var(--fundo-superficie);
+    box-shadow: 0 10px 34px var(--sombra);
+}
+
+main h1,
+main h2,
+main h3 {
+    color: var(--texto-principal);
+}
+
+
+/* ==========================================================
+   BLOCO 7 — ASSISTENTE DE RESOLUÇÃO
+   Dá prioridade visual à descrição do problema, sem parecer um chatbot complexo.
+   ========================================================== */
+
+.area-assistente {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.etiqueta-assistente,
+.rotulo-resultado {
+    margin: 0 0 6px;
+    color: var(--sucesso);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.area-assistente h1 {
+    margin: 0;
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.08;
+}
+
+.introducao-assistente {
+    max-width: 700px;
+    margin: 14px 0 26px;
+    color: var(--texto-secundario);
+}
+
+.area-assistente label,
+.area-catalogo label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--texto-principal);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+#problema,
+#pesquisa {
+    width: 100%;
+    border: 1px solid var(--borda);
+    background: var(--fundo-superficie);
+    color: var(--texto-principal);
+}
+
+#problema {
+    min-height: 120px;
+    padding: 15px 16px;
+    resize: vertical;
+    border-radius: 12px;
+    line-height: 1.5;
+}
+
+#problema::placeholder,
+#pesquisa::placeholder {
+    color: var(--texto-secundario);
+    opacity: 0.86;
+}
+
+.acoes-assistente {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.botao-principal,
+#botaoPesquisar,
+.link-oficial {
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: var(--azul);
+    color: var(--botao-texto);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.botao-principal,
+.botao-secundario {
+    padding: 12px 20px;
+}
+
+.botao-secundario,
+#voltarServicos,
+.opcoes-pergunta button {
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    background: var(--fundo-superficie);
+    color: var(--texto-principal);
+}
+
+.nota-assistente,
+.aviso-orientacao {
+    color: var(--texto-secundario);
+    font-size: 13px;
+}
+
+.nota-assistente {
+    margin: 12px 0 0;
+}
+
+
+/* ==========================================================
+   BLOCO 8 — RESULTADO DO ASSISTENTE
+   Separa a situação identificada, os serviços e a ressalva sobre canais oficiais.
+   ========================================================== */
+
+.resultado-assistente:not(:empty) {
+    margin-top: 24px;
+    padding: 22px;
+    border: 1px solid var(--borda);
+    border-left: 5px solid var(--sucesso);
+    border-radius: 14px;
+    background: var(--fundo-destaque);
+}
+
+.cabecalho-orientacao h2,
+.servico-orientado h3 {
+    margin: 3px 0 8px;
+}
+
+.cabecalho-orientacao p:last-child {
+    margin-bottom: 0;
+}
+
+.servico-orientado {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--fundo-superficie);
+}
+
+.detalhes-orientacao section,
+.conteudo-futuro section {
+    margin-top: 18px;
+}
+
+.detalhes-orientacao h3,
+.conteudo-futuro h3 {
+    margin-bottom: 5px;
+    font-size: 17px;
+}
+
+.detalhes-orientacao p,
+.conteudo-futuro p,
+.detalhes-orientacao li,
+.conteudo-futuro li {
+    color: var(--texto-secundario);
+    font-size: 15px;
+}
+
+.detalhes-orientacao ol,
+.conteudo-futuro ol {
+    padding-left: 24px;
+}
+
+.link-oficial {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 11px 17px;
+}
+
+.opcoes-pergunta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.opcoes-pergunta button {
+    min-width: 90px;
+    padding: 10px 16px;
+}
+
+.pendencia-curadoria {
+    padding: 14px;
+    border-radius: 10px;
+    background: var(--alerta-fundo);
+}
+
+
+/* ==========================================================
+   BLOCO 9 — PESQUISA E SEPARAÇÃO DOS DOIS CAMINHOS
+   Mantém a busca tradicional claramente disponível abaixo do assistente.
+   ========================================================== */
+
+.separador-caminhos {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 38px 0 28px;
+    color: var(--texto-secundario);
+    font-size: 14px;
+}
+
+.separador-caminhos::before,
+.separador-caminhos::after {
+    flex: 1;
+    height: 1px;
+    background: var(--borda);
+    content: "";
+}
+
+.area-catalogo {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.area-catalogo > h2 {
+    margin-bottom: 22px;
+}
+
+.area-pesquisa {
+    display: flex;
+    gap: 10px;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+#pesquisa {
+    padding: 12px 14px;
+    border-radius: 9px;
+}
+
+#botaoPesquisar {
+    padding: 12px 20px;
+}
+
+#sugestoes {
+    max-width: 620px;
+    margin: 7px auto 0;
+}
+
+.sugestao-item {
+    display: block;
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--borda);
+    border-top: 0;
+    background: var(--fundo-superficie);
+    color: var(--texto-principal);
+    text-align: left;
+}
+
+.sugestao-item:first-child {
+    border-top: 1px solid var(--borda);
+}
+
+
+/* ==========================================================
+   BLOCO 10 — CATEGORIAS E ACESSOS RÁPIDOS
+   Preserva os cards e links oficiais da versão anterior.
+   ========================================================== */
+
+#servicos,
+.acessos-rapidos {
+    margin: 32px auto 0;
+}
+
+#servicos h2,
+.acessos-rapidos h2 {
+    font-size: 21px;
+}
+
+.lista-categorias,
+.lista-acessos-rapidos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.categoria,
+.acesso-rapido {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 52px;
+    padding: 12px 16px;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    background: var(--fundo-superficie);
+    color: var(--texto-principal);
+    text-decoration: none;
+}
+
+.categoria {
+    width: 180px;
+}
+
+.categoria.ativa {
+    border-color: var(--foco);
+    background: var(--fundo-secundario);
+    font-weight: 700;
+}
+
+.icone-categoria {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.acessos-rapidos {
+    max-width: 820px;
+    text-align: center;
+}
+
+.acesso-rapido {
+    background: var(--fundo-secundario);
+    font-size: 15px;
+}
+
+
+/* ==========================================================
+   BLOCO 11 — CARDS E DETALHES DO CATÁLOGO
+   Exibe resultados existentes e mantém navegação por teclado.
+   ========================================================== */
+
+#resultado {
+    max-width: 820px;
+    margin: 28px auto 0;
+    text-align: center;
+}
+
+.servico-item,
+.detalhe-servico {
+    max-width: 650px;
+    margin: 12px auto;
+    padding: 17px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--fundo-superficie);
+    box-shadow: 0 2px 8px var(--sombra);
+}
+
+.servico-item {
     cursor: pointer;
 }
 
+.servico-item p,
+.detalhe-servico > p {
+    color: var(--texto-secundario);
+}
 
-/* --------------------------------------
-   TEXTO AMPLIADO
-   -------------------------------------- */
+.categoria-detalhe {
+    margin-bottom: 2px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
 
-html.texto-ampliado body {
-    font-size: 22px;
+.detalhe-servico h2 {
+    margin-top: 0;
+}
+
+.conteudo-futuro {
+    margin-top: 22px;
+    padding: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--fundo-secundario);
+    text-align: left;
+}
+
+#voltarServicos {
+    margin-top: 15px;
+    padding: 10px 18px;
 }
 
 
-/* --------------------------------------
-   FOCO VISÍVEL POR TECLADO
-   -------------------------------------- */
+/* ==========================================================
+   BLOCO 12 — ESTADOS INTERATIVOS E ACESSIBILIDADE
+   Foco visível é obrigatório para quem navega sem mouse.
+   ========================================================== */
+
+button,
+a,
+.servico-item {
+    transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button:hover,
+a:hover,
+.servico-item:hover {
+    transform: translateY(-2px);
+}
+
+.categoria:hover,
+.acesso-rapido:hover,
+.sugestao-item:hover,
+.opcoes-pergunta button:hover,
+#voltarServicos:hover {
+    background: var(--fundo-secundario);
+}
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
+textarea:focus-visible,
 .servico-item:focus-visible {
-
-    outline:
-        3px
-        solid
-        var(--foco);
-
+    outline: 3px solid var(--foco);
     outline-offset: 3px;
 }
 
-
-/* --------------------------------------
-   REDUZIR MOVIMENTO MANUALMENTE
-   -------------------------------------- */
+html.texto-ampliado body {
+    font-size: 21px;
+}
 
 html.reduzir-movimento *,
 html.reduzir-movimento *::before,
 html.reduzir-movimento *::after {
-
-    animation-duration:
-        0.01ms !important;
-
-    animation-iteration-count:
-        1 !important;
-
-    transition-duration:
-        0.01ms !important;
-
-    scroll-behavior:
-        auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
 }
 
-
-/* --------------------------------------
-   RESPEITAR CONFIGURAÇÃO DO SISTEMA
-   -------------------------------------- */
-
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
-
-        animation-duration:
-            0.01ms !important;
-
-        animation-iteration-count:
-            1 !important;
-
-        transition-duration:
-            0.01ms !important;
-
-        scroll-behavior:
-            auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }
 
-/* =====================================================
-   14. CELULAR / RESPONSIVIDADE
-   Android + iPhone
-   ===================================================== */
 
-@media (max-width: 600px) {
+/* ==========================================================
+   BLOCO 13 — RESPONSIVIDADE
+   Empilha controles e amplia áreas de toque em celulares Android e iPhone.
+   ========================================================== */
 
+@media (max-width: 680px) {
     body {
-        font-size: 18px;
+        font-size: 17px;
     }
-
 
     header {
-    padding:
-        12px
-        48px
-        10px;
+        padding: 74px 18px 12px;
     }
-
 
     .logo-via-rj {
-    width: 94%;
+        max-width: 96%;
+    }
 
-    max-width: 460px;
-
-    height: auto;
-
-    margin:
-        0px
-        auto
-        6px;
-}
-
-
-    .aviso-independente {
-    max-width: 420px;
-
-    margin:
-        4px
-        auto
-        12px;
-
-    padding:
-        0
-        8px;
-
-    font-size: 12px;
-
-    line-height: 1.35;
-}
-
+    .botao-tema,
+    .area-acessibilidade {
+        top: 12px;
+    }
 
     .botao-tema {
-        width: 40px;
-        height: 40px;
-
-        top: 10px;
-        right: 10px;
-
-        font-size: 24px;
+        right: 12px;
     }
 
+    .area-acessibilidade {
+        right: 68px;
+    }
+
+    .painel-acessibilidade {
+        position: fixed;
+        top: 68px;
+        right: 12px;
+        left: 12px;
+        width: auto;
+    }
 
     main {
-    width: calc(100% - 20px);
-
-    margin: 0 10px 25px;
-
-    padding: 28px 16px 30px;
-
-    box-sizing: border-box;
-
-    border-radius: 18px;
+        width: calc(100% - 20px);
+        margin-bottom: 24px;
+        padding: 27px 17px 32px;
+        border-radius: 19px;
     }
 
-
-    main h2 {
-        font-size: 27px;
+    .area-assistente h1 {
+        font-size: 34px;
     }
 
-
-    .area-pesquisa {
+    .acoes-assistente,
+    .area-pesquisa,
+    .opcoes-pergunta,
+    .lista-acessos-rapidos {
         flex-direction: column;
-
-        gap: 10px;
     }
 
-
-    #pesquisa {
+    .acoes-assistente button,
+    #botaoPesquisar,
+    .opcoes-pergunta button,
+    .acesso-rapido {
         width: 100%;
-
-        max-width: none;
+        min-height: 48px;
     }
-
-
-    #botaoPesquisar {
-        width: 100%;
-    }
-
-
-    #servicos {
-        margin:
-            20px
-            0;
-    }
-
-
-    .lista-categorias {
-        gap: 10px;
-    }
-
 
     .categoria {
         width: 100%;
-
-        max-width: 320px;
-
-        min-height: 54px;
+        max-width: 340px;
     }
 
-
-    #resultado {
-        margin:
-            20px
-            0;
-    }
-
-
-    .servico-item,
-    .detalhe-servico {
-
-        width: 100%;
-
-        max-width: 100%;
-    }
-
-
-    #sugestoes {
-        width: 100%;
-
-        max-width: none;
-    }
-
-    .lista-acessos-rapidos {
-    flex-direction: column;
-
-    align-items: stretch;
-}
-
-.acesso-rapido {
-    width: 100%;
-
-    justify-content: center;
-
-    min-height: 48px;
-
-    box-sizing: border-box;
-}
-
-
-.area-acessibilidade {
-    top: 10px;
-    right: 58px;
-}
-
-.botao-acessibilidade {
-    width: 40px;
-    height: 40px;
-
-    font-size: 14px;
-}
-
-.painel-acessibilidade {
-    position: fixed;
-
-    top: 60px;
-    right: 10px;
-    left: 10px;
-
-    width: auto;
-}
-
-}
-
-
-/* =====================================================
-   15. TELAS MUITO PEQUENAS
-   ===================================================== */
-
-@media (max-width: 380px) {
-
-    header {
-        padding-left: 48px;
-        padding-right: 48px;
-    }
-
-
-    main h2 {
-        font-size: 24px;
-    }
-
-
-    .aviso-independente {
-        font-size: 11px;
+    .resultado-assistente:not(:empty),
+    .servico-orientado,
+    .conteudo-futuro {
+        padding: 16px;
     }
 }

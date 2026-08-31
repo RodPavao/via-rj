@@ -1,266 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+    <!-- ========================================================
+         BLOCO 1 — CONFIGURAÇÃO DA PÁGINA
+         Define codificação, responsividade, ícones e arquivos usados pelo navegador.
+         ======================================================== -->
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VIA RJ orienta o cidadão a encontrar serviços de trânsito e documentação no Rio de Janeiro.">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="favicon-via-rj.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-    <title>VIA RJ - Serviços de Trânsito</title>
-
     <link rel="stylesheet" href="style.css">
+    <title>VIA RJ — Assistente de trânsito e documentação</title>
 </head>
-
-
 <body>
-
-    <!-- BOTÃO DE TEMA -->
-
+    <!-- ========================================================
+         BLOCO 2 — CONTROLES DE ACESSIBILIDADE
+         Mantém tema, texto ampliado e redução de movimento acessíveis em toda a página.
+         ======================================================== -->
     <div class="area-acessibilidade">
-
-    <button
-        id="botaoAcessibilidade"
-        class="botao-acessibilidade"
-        type="button"
-        aria-label="Abrir opções de acessibilidade"
-        aria-expanded="false"
-        aria-controls="painelAcessibilidade"
-    >
-        Aa
-    </button>
-
-    <div
-        id="painelAcessibilidade"
-        class="painel-acessibilidade"
-        hidden
-    >
-        <strong>Acessibilidade</strong>
-
-        <button
-            id="botaoAumentarTexto"
-            type="button"
-        >
-            Aumentar texto
-        </button>
-
-        <button
-            id="botaoReduzirMovimento"
-            type="button"
-            aria-pressed="false"
-        >
-            Reduzir animações
-        </button>
-
-        <button
-            id="botaoResetarAcessibilidade"
-            type="button"
-        >
-            Restaurar padrão
-        </button>
+        <button id="botaoAcessibilidade" class="botao-acessibilidade" type="button" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="painelAcessibilidade">Aa</button>
+        <div id="painelAcessibilidade" class="painel-acessibilidade" hidden>
+            <strong>Acessibilidade</strong>
+            <button id="botaoAumentarTexto" type="button">Aumentar texto</button>
+            <button id="botaoReduzirMovimento" type="button" aria-pressed="false">Reduzir animações</button>
+            <button id="botaoResetarAcessibilidade" type="button">Restaurar padrão</button>
+        </div>
     </div>
+    <button id="botaoTema" class="botao-tema" type="button" aria-label="Ativar modo escuro" title="Alternar modo claro/escuro"><span aria-hidden="true">◐</span></button>
 
-</div>
-
-    <button
-        id="botaoTema"
-        class="botao-tema"
-        type="button"
-        aria-label="Ativar modo escuro"
-        title="Alternar modo claro/escuro"
-    >
-        <span aria-hidden="true">◐</span>
-    </button>
-
-
-    <!-- CABEÇALHO -->
+    <!-- ========================================================
+         BLOCO 3 — IDENTIDADE DO VIA RJ
+         Apresenta a marca e deixa claro que o projeto não é um órgão público.
+         ======================================================== -->
     <header>
-
-        <img
-            src="images/logo-via-rj.png"
-            alt="VIA RJ - Seu caminho para os serviços de trânsito"
-            class="logo-via-rj"
-        >
-
-        <p class="aviso-independente">
-            Projeto independente e acadêmico.
-            Não é um canal oficial do DETRAN-RJ.
-        </p>
-
+        <img src="images/logo-via-rj.png" alt="VIA RJ — Seu caminho para os serviços de trânsito" class="logo-via-rj">
+        <p class="aviso-independente">Projeto independente e acadêmico. Não é um canal oficial do DETRAN-RJ e não executa procedimentos oficiais.</p>
     </header>
 
-
-    <!-- CONTEÚDO PRINCIPAL -->
     <main>
-
-        <h2>Como podemos ajudar?</h2>
-
-        <label for="pesquisa">
-            Qual serviço você procura?
-        </label>
-
-        <div class="area-pesquisa">
-
-            <input
-                type="text"
-                id="pesquisa"
-                placeholder="Digite o serviço que você procura"
-            >
-
-            <button id="botaoPesquisar">
-                Pesquisar
-            </button>
-
-        </div>
-
-        <div id="sugestoes"></div>
-
-
-        <!-- CATEGORIAS -->
-        <section id="servicos">
-
-            <h2>Serviços</h2>
-
-            <div class="lista-categorias">
-
-    <button
-        class="categoria"
-        data-categoria="Habilitação"
-        type="button"
-    >
-        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-            <circle cx="8" cy="11" r="2"></circle>
-            <path d="M5.5 16c.8-1.8 4.2-1.8 5 0"></path>
-            <path d="M13 9h5M13 12h5M13 15h3"></path>
-        </svg>
-
-        <span>Habilitação</span>
-    </button>
-
-
-    <button
-        class="categoria"
-        data-categoria="Veículos"
-        type="button"
-    >
-        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 17h14"></path>
-            <path d="M6 17v2M18 17v2"></path>
-            <path d="M4 13l2-5h12l2 5v4H4z"></path>
-            <circle cx="7" cy="14" r="1"></circle>
-            <circle cx="17" cy="14" r="1"></circle>
-        </svg>
-
-        <span>Veículo</span>
-    </button>
-
-
-    <button
-        class="categoria"
-        data-categoria="Identificação"
-        type="button"
-    >
-        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
-            <circle cx="12" cy="9" r="3"></circle>
-            <path d="M7.5 17c1.2-3 7.8-3 9 0"></path>
-        </svg>
-
-        <span>Identificação Civil</span>
-    </button>
-
-
-    <button
-        class="categoria"
-        data-categoria="Infrações"
-        type="button"
-    >
-        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 3L2.5 20h19z"></path>
-            <path d="M12 9v5"></path>
-            <circle cx="12" cy="17" r=".7"></circle>
-        </svg>
-
-        <span>Infrações</span>
-    </button>
-
-</div>
-
-        </div>
-
-
-        <!-- ACESSOS RÁPIDOS -->
-        <section
-            class="acessos-rapidos"
-            aria-labelledby="tituloAcessosRapidos"
-        >
-
-            <h3 id="tituloAcessosRapidos">
-                Acessos rápidos
-            </h3>
-
-            <div class="lista-acessos-rapidos">
-
-                <a
-                    href="https://www.detran.rj.gov.br/todos-os-agendamentos"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="acesso-rapido"
-                >
-                    <span aria-hidden="true">📅</span>
-                    Agendamento
-                </a>
-
-                <a
-                    href="https://www.detran.rj.gov.br/detran-rj/posto-digital.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="acesso-rapido"
-                >
-                    <span aria-hidden="true">↗</span>
-                    Detran RJ Digital
-                </a>
-
-                <a
-                    href="https://www.detran.rj.gov.br/todos-os-servicos"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="acesso-rapido"
-                >
-                    <span aria-hidden="true">☰</span>
-                    Todos os serviços
-                </a>
-
+        <!-- ========================================================
+             BLOCO 4 — ASSISTENTE DE RESOLUÇÃO
+             Recebe uma situação em linguagem comum e inicia o fluxo baseado em regras.
+             ======================================================== -->
+        <section class="area-assistente" aria-labelledby="tituloAssistente">
+            <p class="etiqueta-assistente">Orientação simples, sem burocratês</p>
+            <h1 id="tituloAssistente">O que você precisa resolver?</h1>
+            <p class="introducao-assistente">Conte o que aconteceu. O VIA RJ identifica uma situação provável e organiza os serviços que podem ajudar.</p>
+            <label for="problema">Descreva o que aconteceu ou o que você precisa resolver.</label>
+            <textarea id="problema" rows="4" placeholder="Ex.: Recebi uma multa, mas outra pessoa estava dirigindo."></textarea>
+            <div class="acoes-assistente">
+                <button id="botaoOrientar" class="botao-principal" type="button">Receber orientação</button>
+                <button id="botaoLimparAssistente" class="botao-secundario" type="button">Limpar</button>
             </div>
-
+            <p class="nota-assistente">O VIA RJ orienta. A confirmação e a realização do procedimento acontecem nos canais oficiais responsáveis.</p>
+            <div id="resultadoAssistente" class="resultado-assistente" aria-live="polite"></div>
         </section>
 
+        <!-- ========================================================
+             BLOCO 5 — NAVEGAÇÃO TRADICIONAL
+             Preserva a pesquisa por nome e a navegação manual por categorias.
+             ======================================================== -->
+        <section class="area-catalogo" aria-labelledby="tituloCatalogo">
+            <div class="separador-caminhos" aria-hidden="true"><span>ou</span></div>
+            <h2 id="tituloCatalogo">Prefere procurar um serviço?</h2>
+            <label for="pesquisa">Pesquise pelo nome do serviço.</label>
+            <div class="area-pesquisa">
+                <input type="search" id="pesquisa" placeholder="Ex.: renovação da CNH" autocomplete="off">
+                <button id="botaoPesquisar" type="button">Pesquisar</button>
+            </div>
+            <div id="sugestoes" role="listbox" aria-label="Sugestões de serviços"></div>
 
-    </section>
-
-    <!-- RESULTADOS -->
-
+            <section id="servicos" aria-labelledby="tituloServicos">
+                <h2 id="tituloServicos">Navegue por categoria</h2>
+                <div class="lista-categorias">
+                    <button class="categoria" data-categoria="Habilitação" type="button">
+                        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="8" cy="11" r="2"></circle><path d="M5.5 16c.8-1.8 4.2-1.8 5 0M13 9h5M13 12h5M13 15h3"></path></svg>
+                        <span>Habilitação</span>
+                    </button>
+                    <button class="categoria" data-categoria="Veículos" type="button">
+                        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14M6 17v2M18 17v2M4 13l2-5h12l2 5v4H4z"></path><circle cx="7" cy="14" r="1"></circle><circle cx="17" cy="14" r="1"></circle></svg>
+                        <span>Veículo</span>
+                    </button>
+                    <button class="categoria" data-categoria="Identificação" type="button">
+                        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"></rect><circle cx="12" cy="9" r="3"></circle><path d="M7.5 17c1.2-3 7.8-3 9 0"></path></svg>
+                        <span>Identificação Civil</span>
+                    </button>
+                    <button class="categoria" data-categoria="Infrações" type="button">
+                        <svg class="icone-categoria" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2.5 20h19zM12 9v5"></path><circle cx="12" cy="17" r=".7"></circle></svg>
+                        <span>Infrações</span>
+                    </button>
+                </div>
+            </section>
         </section>
 
-
-        <!-- RESULTADOS -->
-        <section
-            id="resultado"
-            aria-live="polite"
-        ></section>
-
+        <!-- ========================================================
+             BLOCO 6 — ACESSOS E RESULTADOS DO CATÁLOGO
+             Mantém atalhos oficiais e a área usada pela busca, cards e detalhes.
+             ======================================================== -->
+        <section class="acessos-rapidos" aria-labelledby="tituloAcessosRapidos">
+            <h2 id="tituloAcessosRapidos">Acessos rápidos oficiais</h2>
+            <div class="lista-acessos-rapidos">
+                <a href="https://www.detran.rj.gov.br/todos-os-agendamentos" target="_blank" rel="noopener noreferrer" class="acesso-rapido"><span aria-hidden="true">📅</span> Agendamento</a>
+                <a href="https://www.detran.rj.gov.br/detran-rj/posto-digital.html" target="_blank" rel="noopener noreferrer" class="acesso-rapido"><span aria-hidden="true">↗</span> Detran RJ Digital</a>
+                <a href="https://www.detran.rj.gov.br/todos-os-servicos" target="_blank" rel="noopener noreferrer" class="acesso-rapido"><span aria-hidden="true">☰</span> Todos os serviços</a>
+            </div>
+        </section>
+        <section id="resultado" aria-live="polite" aria-label="Resultados dos serviços"></section>
     </main>
 
-
-    <script src="script.js"></script>
-
+    <!-- ========================================================
+         BLOCO 7 — LÓGICA DA APLICAÇÃO
+         O atributo defer aguarda o HTML ser interpretado antes de executar o JavaScript.
+         ======================================================== -->
+    <script src="script.js" defer></script>
 </body>
-
 </html>

@@ -1,6 +1,6 @@
 [
     {
-        "nome": "Primeira CNH",
+        "nome": "Primeira Habilitação",
         "categoria": "Habilitação",
         "palavrasChave": [
             "primeira cnh",
@@ -8,10 +8,14 @@
             "tirar carteira",
             "cnh"
         ],
-        "mensagem": "Orientações sobre o processo de primeira habilitação"
+        "mensagem": "Orientações para obter a primeira habilitação.",
+        "requisitos": "Destinado a quem deseja obter a primeira habilitação e atende aos requisitos exigidos para iniciar o processo de formação de condutor.",
+        "documentos": "Documento oficial de identificação; CPF; comprovante de residência ou declaração de residência e demais documentos exigidos pelo DETRAN-RJ para abertura do processo.",
+        "etapas": "1. Iniciar o processo de primeira habilitação. 2. Realizar as etapas de identificação e avaliação exigidas. 3. Cumprir os exames médico e psicológico, quando aplicáveis. 4. Realizar o curso e a prova teórica. 5. Cumprir as aulas práticas de direção. 6. Realizar o exame prático. 7. Após aprovação, acompanhar a emissão da Permissão para Dirigir.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-hab/1-habilitacao.html"
         },
     {
-        "nome": "Segunda Via da CNH",
+        "nome": "2ª Via da Habilitação",
         "categoria": "Habilitação",
         "palavrasChave": [
             "segunda via cnh",
@@ -20,10 +24,14 @@
             "carteira perdida",
             "segunda via habilitacao"
         ],
-        "mensagem": "Orientações para solicitar a segunda via da CNH"
+        "mensagem": "Consulte as orientações para solicitar a segunda via da Carteira Nacional de Habilitação.",
+        "requisitos": "Destinado ao condutor que necessita de uma nova via da CNH, por exemplo em caso de perda, roubo, furto ou dano do documento. A habilitação deve estar em situação que permita a emissão.",
+        "documentos": "Documento oficial de identificação e CPF. Conforme a forma de atendimento escolhida, poderão ser solicitados outros dados ou documentos para identificação do condutor.",
+        "etapas": "1. Verificar a situação da habilitação. 2. Solicitar a segunda via pelos canais disponibilizados pelo DETRAN-RJ. 3. Informar os dados solicitados e cumprir as exigências apresentadas pelo sistema. 4. Acompanhar o processamento e a emissão da nova via.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-hab/2-via-de-habilitacao.html"
         },
     {
-        "nome": "Renovação da CNH",
+        "nome": "Renovação da Habilitação",
         "categoria": "Habilitação",
         "palavrasChave": [
             "renovacao",
@@ -32,10 +40,11 @@
             "carteira",
             "habilitacao"
         ],
-        "mensagem": "Orientações sobre renovação da CNH",
-        "requisitos": "Conteúdo será levantado e validado posteriormente",
-        "documentos": "Conteúdo será levantado e validado posteriormente",
-                "etapas": "Conteúdo será levantado e validado posteriormente"
+        "mensagem": "Consulte as orientações para renovação da Carteira Nacional de Habilitação.",
+        "requisitos": "Destinado ao condutor que precisa renovar a CNH vencida ou próxima do vencimento. A situação da habilitação deve permitir a realização do serviço.",
+        "documentos": "Documento oficial de identificação; CPF; comprovante ou declaração de residência e demais documentos ou comprovantes exigidos pelo DETRAN-RJ conforme o procedimento aplicável.",
+        "etapas": "1. Verificar a situação da CNH. 2. Solicitar a renovação pelo procedimento indicado pelo DETRAN-RJ. 3. Cumprir as etapas de identificação e os exames exigidos para o caso. 4. Acompanhar o processamento do serviço. 5. Após a conclusão, acessar ou receber a nova CNH conforme as opções disponibilizadas.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-hab/renovacao-da-habilitacao.html"
     },
     {
         "nome": "Outros Serviços de Habilitação",
@@ -44,11 +53,14 @@
             "outros habilitação",
             "outros serviços habilitação"
         ],
-        "mensagem": "Acesso aos demais serviços de habilitação"
+        "mensagem": "Não encontrou o que procura nesta categoria? Consulte outros serviços oficiais de habilitação.",
+        "status_conteudo": "porta-entrada",
+        "orientacao": "Este item reúne o acesso oficial para outros serviços de habilitação que ainda não possuem um card específico no VIA RJ.",
+        "link_oficial": "https://www.detran.rj.gov.br/menu/menu-habilitacao"
     },
 
     {
-        "nome": "Licenciamento Anual",
+        "nome": "Licenciamento Anual (CRLV-e)",
         "categoria": "Veículos",
         "palavrasChave": [
             "licenciamento",
@@ -58,7 +70,11 @@
             "documento carro",
             "crlv"
         ],
-        "mensagem": "Orientações sobre o licenciamento anual do veículo"
+        "mensagem": "Consulte as orientações para o licenciamento anual e emissão do documento digital do veículo.",
+        "requisitos": "Veículo registrado no Estado do Rio de Janeiro e em situação que permita a realização do licenciamento anual.",
+        "documentos": "Tenha disponíveis os dados do veículo. Os débitos e obrigações que impeçam o licenciamento devem estar regularizados conforme as regras vigentes.",
+        "etapas": "1. Consultar a situação do veículo. 2. Verificar e regularizar eventuais débitos ou impedimentos. 3. Aguardar o processamento das informações. 4. Após o licenciamento, acessar o CRLV-e pelos canais digitais disponíveis. 5. Caso exista alguma pendência, consultar as orientações do DETRAN-RJ.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-drv/licenciamento-anual.html"
     },
     {
         "nome": "Vistoria Veicular",
@@ -69,7 +85,10 @@
             "carro",
             "inspecao"
         ],
-        "mensagem": "Orientações sobre vistoria veicular"
+        "mensagem": "Conteúdo detalhado ainda em curadoria. Consulte os canais oficiais enquanto esta orientação é preparada.",
+        "status_conteudo": "curadoria",
+        "orientacao": "O projeto ainda não possui requisitos, documentos e etapas verificados especificamente para este serviço.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos"
     },
     {
         "nome": "Segunda Via do CRV",
@@ -82,7 +101,52 @@
             "documento de propriedade",
             "segunda via documento veiculo"
         ],
-        "mensagem": "Orientações para solicitar a segunda via do CRV"
+        "mensagem": "Conteúdo detalhado ainda em curadoria. Consulte os canais oficiais enquanto esta orientação é preparada.",
+        "status_conteudo": "curadoria",
+        "orientacao": "O projeto ainda não possui requisitos, documentos e etapas verificados especificamente para este serviço.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos"
+    },
+    {
+        "nome": "Transferência de Propriedade",
+        "categoria": "Veículos",
+        "palavrasChave": [
+            "transferencia de propriedade",
+            "comprei carro usado",
+            "passar carro para meu nome"
+        ],
+        "mensagem": "Consulte as orientações para transferência da propriedade de um veículo.",
+        "requisitos": "Destinado ao novo proprietário de veículo usado. A transferência deve ser providenciada dentro do prazo legal após a aquisição e o veículo deve atender às condições necessárias para realização do serviço.",
+        "documentos": "Documentação padrão do proprietário; CRV ou ATPV-e devidamente preenchido e assinado por vendedor e comprador conforme as regras aplicáveis; taxas e demais documentos específicos exigidos para o caso.",
+        "etapas": "1. Formalizar a compra e venda. 2. Reunir o CRV ou ATPV-e e demais documentos necessários. 3. Regularizar taxas e eventuais débitos exigidos. 4. Agendar a Transferência de Propriedade. 5. Realizar a vistoria quando exigida. 6. Concluir a atualização do cadastro e acompanhar a emissão da nova documentação.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-drv/transferencia-de-propriedade.html"
+    },
+    {
+        "nome": "Comunicação de Venda",
+        "categoria": "Veículos",
+        "palavrasChave": [
+            "comunicacao de venda",
+            "vendi meu carro",
+            "comprador nao transferiu"
+        ],
+        "mensagem": "Comunique oficialmente a venda do veículo para registrar a transferência e resguardar o antigo proprietário.",
+        "requisitos": "Destinado ao antigo proprietário após a venda do veículo. O registro da Comunicação de Venda é importante para formalizar a transferência e resguardar o vendedor das responsabilidades posteriores à venda.",
+        "documentos": "Documentação padrão exigida pelo DETRAN-RJ; formulário próprio de Comunicação de Venda e documentação que comprove a transferência, como CRV ou ATPV-e devidamente preenchido e formalizado, conforme o caso.",
+        "etapas": "1. Formalizar a venda do veículo. 2. Reunir o documento de transferência e a documentação exigida. 3. Realizar a Comunicação de Venda pelos meios disponibilizados. 4. Confirmar o registro da comunicação para que a venda conste na base do DETRAN-RJ.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-drv/comunicacao-de-venda.html"
+    },
+    {
+        "nome": "Consulta de Cadastro do Veículo",
+        "categoria": "Veículos",
+        "palavrasChave": [
+            "cadastro veiculo",
+            "carro ainda no meu nome",
+            "consultar veiculo"
+        ],
+        "mensagem": "Consulte informações cadastrais e dados disponíveis sobre o veículo.",
+        "requisitos": "Possuir os dados necessários para identificar o veículo e realizar a consulta.",
+        "documentos": "Tenha disponíveis os dados do veículo e do proprietário solicitados pelo DETRAN-RJ, conforme o tipo de consulta.",
+        "etapas": "1. Acessar a consulta oficial. 2. Informar os dados solicitados. 3. Consultar as informações cadastrais disponíveis sobre o veículo. 4. Caso seja identificada alguma pendência, acessar o serviço correspondente para obter orientações.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-drv/informacao-sobre-cadastro-de-veiculo.html"
     },
     {
         "nome": "Outros Serviços de Veículos",
@@ -91,7 +155,10 @@
             "outros veículos",
             "outros serviços veículos"
         ],
-        "mensagem": "Acesso aos demais serviços relacionados a veículos"
+        "mensagem": "Não encontrou o que procura nesta categoria? Consulte outros serviços oficiais de veículos.",
+        "status_conteudo": "porta-entrada",
+        "orientacao": "Este item oferece uma porta de entrada para outros serviços oficiais de veículos.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos"
     },
 
     {
@@ -104,10 +171,13 @@
             "documento",
             "identificacao"
         ],
-        "mensagem": "Orientações sobre serviços de identificação civil"
+        "mensagem": "Conteúdo detalhado ainda em curadoria. Consulte os canais oficiais enquanto esta orientação é preparada.",
+        "status_conteudo": "curadoria",
+        "orientacao": "Este card é genérico e o projeto ainda não possui requisitos, documentos e etapas que correspondam exatamente a ele.",
+        "link_oficial": "https://www.detran.rj.gov.br/menu/menu-identificacao-civil"
     },
     {
-        "nome": "Segunda Via da Identidade",
+        "nome": "2ª Via da Carteira de Identidade Nacional (CIN)",
         "categoria": "Identificação",
         "palavrasChave": [
             "segunda via identidade",
@@ -118,7 +188,11 @@
             "rg perdido",
             "novo rg"
         ],
-        "mensagem": "Orientações para solicitar a segunda via da identidade"
+        "mensagem": "Solicite uma nova via da Carteira de Identidade Nacional (CIN).",
+        "requisitos": "Destinado a quem já possui ou já teve emitida a Carteira de Identidade Nacional (CIN) e necessita de uma nova via. Em regra, há cobrança de taxa. Em casos previstos, como roubo ou furto com registro de ocorrência, pode haver isenção.",
+        "documentos": "CPF; documentação correspondente ao estado civil; comprovante ou declaração de residência; comprovante de pagamento da taxa quando aplicável; e, em caso de roubo ou furto, Registro de Ocorrência conforme as regras do DETRAN-RJ.",
+        "etapas": "1. Verificar se o caso é de segunda via. 2. Efetuar o pagamento da taxa, quando aplicável. 3. Realizar o agendamento quando exigido. 4. Comparecer ao posto com a documentação necessária. 5. Acompanhar a emissão e retirar o novo documento quando estiver disponível.",
+        "link_oficial": "https://www.detran.rj.gov.br/todos-os-servicos/servicos-dic/2-via-de-identidade.html"
     },
     {
         "nome": "Outros Serviços de Identificação",
@@ -127,11 +201,14 @@
             "outros identificação",
             "outros serviços identificação"
         ],
-        "mensagem": "Acesso aos demais serviços de identificação"
+        "mensagem": "Não encontrou o que procura nesta categoria? Consulte outros serviços oficiais de identificação civil.",
+        "status_conteudo": "porta-entrada",
+        "orientacao": "Este item reúne o acesso oficial para outros serviços de identificação civil.",
+        "link_oficial": "https://www.detran.rj.gov.br/menu/menu-identificacao-civil"
     },
 
     {
-        "nome": "Consultar Infração",
+        "nome": "Consulta de Multas e Infrações",
         "categoria": "Infrações",
         "palavrasChave": [
             "infracao",
@@ -139,7 +216,11 @@
             "pontos",
             "autuacao"
         ],
-        "mensagem": "Orientações para consultar infrações"
+        "mensagem": "Consulte multas e infrações relacionadas ao veículo.",
+        "requisitos": "Possuir os dados necessários para identificar o veículo ou consultar as informações relacionadas às infrações.",
+        "documentos": "Tenha disponíveis os dados solicitados pelo serviço de consulta, como informações do veículo, RENAVAM e dados do proprietário, conforme o tipo de consulta realizada.",
+        "etapas": "1. Acessar o serviço oficial de consulta. 2. Informar os dados solicitados. 3. Consultar as multas e infrações disponíveis. 4. Verificar os detalhes apresentados pelo sistema. 5. Caso necessário, acessar os serviços relacionados, como defesa prévia, recurso, certidão de nada consta ou indicação de real infrator.",
+        "link_oficial": "https://www.detran.rj.gov.br/menu/menu-infracoes"
     },
     {
         "nome": "Defesa Prévia",
@@ -150,10 +231,14 @@
             "recurso",
             "autuacao"
         ],
-        "mensagem": "Orientações sobre apresentação de defesa prévia"
+        "mensagem": "Consulte as orientações para apresentar defesa prévia de uma autuação de trânsito.",
+        "requisitos": "Destinado ao proprietário ou condutor legitimado que deseja contestar uma autuação antes da aplicação da penalidade. A defesa deve ser apresentada dentro do prazo informado na notificação.",
+        "documentos": "Requerimento de defesa; cópia da notificação ou Auto de Infração; documentação de identificação do requerente e demais documentos necessários para fundamentar a contestação, conforme as regras do DETRAN-RJ.",
+        "etapas": "1. Conferir a Notificação de Autuação e o prazo para defesa. 2. Analisar os dados da infração. 3. Preencher o requerimento de Defesa Prévia. 4. Reunir a documentação e os elementos que fundamentam a contestação. 5. Protocolar a defesa pelo meio disponibilizado. 6. Acompanhar o andamento do processo.",
+        "link_oficial": "https://www.detran.rj.gov.br/infracoes/principais-servicos-infracoes/recurso-online.html"
     },
     {
-        "nome": "Real Infrator",
+        "nome": "Indicação / Troca de Real Infrator",
         "categoria": "Infrações",
         "palavrasChave": [
             "real infrator",
@@ -164,7 +249,11 @@
             "multa de outra pessoa",
             "nao era eu dirigindo"
         ],
-        "mensagem": "Orientações sobre o procedimento de identificação do real infrator"
+        "mensagem": "Consulte as orientações para identificação do condutor responsável pela infração.",
+        "requisitos": "Destinado ao proprietário que recebeu uma infração cometida por outra pessoa que conduzia o veículo. A indicação deve observar o prazo informado na notificação e as regras aplicáveis à infração.",
+        "documentos": "Formulário de indicação do real infrator; documentação do proprietário; CNH do condutor indicado; documentação e dados solicitados pelo DETRAN-RJ e a respectiva notificação ou Auto de Infração, conforme o caso.",
+        "etapas": "1. Conferir a notificação e o prazo para indicação. 2. Identificar o condutor que dirigia o veículo no momento da infração. 3. Preencher o requerimento de Troca de Real Infrator. 4. Reunir as assinaturas e documentos exigidos. 5. Encaminhar a indicação ao órgão autuador conforme as orientações apresentadas.",
+        "link_oficial": "https://www.detran.rj.gov.br/infracoes/principais-servicos-infracoes/troca-de-real-infrator.html"
     },
     {
         "nome": "Outros Serviços de Infrações",
@@ -173,6 +262,9 @@
             "outros infrações",
             "outros serviços infrações"
         ],
-        "mensagem": "Acesso aos demais serviços relacionados a infrações"
+        "mensagem": "Não encontrou o que procura nesta categoria? Consulte outros serviços oficiais de infrações.",
+        "status_conteudo": "porta-entrada",
+        "orientacao": "Este item reúne o acesso oficial para outros serviços de multas e infrações.",
+        "link_oficial": "https://www.detran.rj.gov.br/menu/menu-infracoes"
     }
 ]

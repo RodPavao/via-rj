@@ -1,808 +1,640 @@
-// ======================================================
-// 1. DADOS E ELEMENTOS DA PÁGINA
-// ======================================================
+// ==========================================================
+// BLOCO 1 — ESTADO E ELEMENTOS DA PÁGINA
+// Guarda os dados carregados e as referências aos elementos que o JavaScript altera.
+// ==========================================================
 
 let servicos = [];
 let categoriaAberta = null;
+let situacaoEmEsclarecimento = null;
+let carregamentoServicosConcluido = false;
 
-let resultado = document.getElementById("resultado");
-let campoPesquisa = document.getElementById("pesquisa");
-let sugestoes = document.getElementById("sugestoes");
-let botaoPesquisar = document.getElementById("botaoPesquisar");
-let botoesCategoria = document.querySelectorAll(".categoria");
+const resultado = document.getElementById("resultado");
+const campoPesquisa = document.getElementById("pesquisa");
+const sugestoes = document.getElementById("sugestoes");
+const botaoPesquisar = document.getElementById("botaoPesquisar");
+const botoesCategoria = document.querySelectorAll(".categoria");
+const campoProblema = document.getElementById("problema");
+const botaoOrientar = document.getElementById("botaoOrientar");
+const botaoLimparAssistente = document.getElementById("botaoLimparAssistente");
+const resultadoAssistente = document.getElementById("resultadoAssistente");
 
 
-// ======================================================
-// 2. CARREGAR SERVIÇOS DO JSON
-// ======================================================
+// ==========================================================
+// BLOCO 2 — SITUAÇÕES CONHECIDAS PELO ASSISTENTE
+// Cada objeto relaciona frases cotidianas a serviços existentes. Para incluir um novo
+// caso, basta acrescentar outro objeto após verificar o conteúdo em uma fonte oficial.
+// ==========================================================
 
-function carregarServicos() {
+const situacoes = [
+    {
+        id: "cnh-vencida",
+        titulo: "CNH vencida ou próxima do vencimento",
+        explicacao: "O serviço relacionado é a renovação da habilitação.",
+        termos: ["cnh vencida", "cnh venceu", "minha cnh venceu", "cnh esta vencida", "carteira vencida", "habilitacao vencida", "renovar cnh", "renovacao cnh", "preciso renovar carteira"],
+        servicos: ["Renovação da Habilitação", "Renovação da CNH"]
+    },
+    {
+        id: "venda-nao-atualizada",
+        titulo: "Veículo vendido ainda relacionado ao antigo proprietário",
+        explicacao: "Precisamos confirmar uma informação antes de indicar o caminho mais útil.",
+        termos: ["vendi meu carro", "vendi o carro", "vendi meu veiculo", "vendi veiculo", "ainda esta no meu nome", "carro continua no meu nome", "venda nao atualizada", "comprador nao transferiu"],
+        pergunta: "Você já realizou a comunicação de venda?",
+        respostas: {
+            sim: ["Consulta de Cadastro do Veículo"],
+            nao: ["Comunicação de Venda"],
+            naoSei: ["Comunicação de Venda", "Consulta de Cadastro do Veículo"]
+        }
+    },
+    {
+        id: "multa-outro-condutor",
+        titulo: "Multa recebida quando outra pessoa dirigia",
+        explicacao: "O serviço relacionado é a indicação do condutor responsável pela infração.",
+        termos: ["nao era eu", "eu nao estava dirigindo", "outra pessoa dirigia", "outra pessoa estava dirigindo", "multa de outra pessoa", "transferir pontos", "indicar condutor", "real infrator"],
+        servicos: ["Indicação / Troca de Real Infrator", "Real Infrator"]
+    },
+    {
+        id: "licenciamento-nao-atualizado",
+        titulo: "Licenciamento ou documento do veículo não atualizado",
+        explicacao: "Consulte o licenciamento e a emissão do CRLV-e para verificar orientações e possíveis pendências.",
+        termos: ["paguei licenciamento", "paguei o documento", "documento nao atualizou", "crlv nao atualizou", "crlv nao aparece", "licenciamento nao atualizou", "documento do carro nao aparece"],
+        servicos: ["Licenciamento Anual (CRLV-e)", "Licenciamento Anual"]
+    },
+    {
+        id: "identidade-perdida",
+        titulo: "Perda, roubo ou furto do documento de identidade",
+        explicacao: "O serviço relacionado é a emissão de uma nova via da identidade.",
+        termos: ["perdi identidade", "perdi minha identidade", "perdi meu rg", "identidade perdida", "rg perdido", "roubaram identidade", "roubaram meu rg", "fiquei sem identidade", "segunda via identidade"],
+        servicos: ["2ª Via da Carteira de Identidade Nacional (CIN)", "Segunda Via da Identidade"]
+    },
+    {
+        id: "compra-veiculo-usado",
+        titulo: "Compra de veículo usado",
+        explicacao: "O serviço relacionado é a transferência do veículo para o novo proprietário.",
+        termos: ["comprei carro", "comprei um carro", "comprei carro usado", "comprei um carro usado", "comprei veiculo", "comprei veiculo usado", "nao sei se ha multa", "quero saber se o carro tem multa", "carro tem multa", "carro tem pendencia", "veiculo tem debito", "consultar situacao do veiculo", "transferir carro para meu nome", "transferencia de propriedade"],
+        servicos: ["Transferência de Propriedade", "Consulta de Cadastro do Veículo", "Consulta de Multas e Infrações"]
+    }
+];
 
-    let enderecoDados;
 
-    if (window.location.hostname.includes("github.io")) {
-        enderecoDados = "servicos.json";
-    } else {
-        enderecoDados = "api/servicos.php";
+// ==========================================================
+// BLOCO 3 — CARREGAMENTO DOS SERVIÇOS
+// Usa a API PHP no XAMPP/hospedagem e o JSON no GitHub Pages ou como reserva local.
+// ==========================================================
+
+async function buscarJson(endereco) {
+    const resposta = await fetch(endereco);
+
+    if (!resposta.ok) {
+        throw new Error("Erro HTTP: " + resposta.status);
     }
 
-    fetch(enderecoDados)
-        .then(function (resposta) {
+    const dados = await resposta.json();
 
-            if (!resposta.ok) {
-                throw new Error("Erro HTTP: " + resposta.status);
+    if (!Array.isArray(dados)) {
+        throw new Error("A fonte de dados não devolveu uma lista de serviços.");
+    }
+
+    return dados;
+}
+
+async function carregarServicos() {
+    const estaNoGitHubPages = window.location.hostname.includes("github.io");
+    const fontes = estaNoGitHubPages
+        ? ["servicos.json"]
+        : ["api/servicos.php", "servicos.json"];
+
+    for (const fonte of fontes) {
+        try {
+            servicos = await buscarJson(fonte);
+
+            // A requisição é assíncrona: o usuário pode selecionar uma categoria
+            // antes da API ou do fallback responder. Nesse caso, a categoria fica
+            // guardada em categoriaAberta e precisa ser renderizada agora que os
+            // dados realmente existem. Sem esta atualização, o botão permanecia
+            // selecionado, mas os cards não apareciam.
+            carregamentoServicosConcluido = true;
+
+            if (categoriaAberta !== null) {
+                mostrarServicos(obterServicosDaCategoria(categoriaAberta));
             }
 
-            return resposta.json();
-        })
-        .then(function (dados) {
-            servicos = dados;
-        })
-        .catch(function (erro) {
+            return;
+        } catch (erro) {
+            console.warn("Não foi possível carregar:", fonte, erro);
+        }
+    }
 
-            console.error("Erro ao carregar os serviços:", erro);
-
-            resultado.textContent =
-                "Não foi possível carregar os serviços. Tente novamente mais tarde.";
-        });
+    carregamentoServicosConcluido = true;
+    resultado.textContent = "Não foi possível carregar os serviços. Tente novamente mais tarde.";
 }
 
 carregarServicos();
 
 
-// ======================================================
-// 3. FUNÇÕES AUXILIARES
-// ======================================================
+// ==========================================================
+// BLOCO 4 — FUNÇÕES AUXILIARES E SEGURANÇA
+// Normaliza comparações e impede que textos vindos dos dados sejam interpretados como HTML.
+// ==========================================================
 
 function normalizarTexto(texto) {
-
-    return texto
+    return String(texto || "")
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
-
-function calcularDistancia(a, b) {
-
-    let matriz = [];
-
-    for (let i = 0; i <= b.length; i++) {
-        matriz[i] = [i];
-    }
-
-    for (let j = 0; j <= a.length; j++) {
-        matriz[0][j] = j;
-    }
-
-    for (let i = 1; i <= b.length; i++) {
-
-        for (let j = 1; j <= a.length; j++) {
-
-            if (b.charAt(i - 1) === a.charAt(j - 1)) {
-
-                matriz[i][j] = matriz[i - 1][j - 1];
-
-            } else {
-
-                matriz[i][j] = Math.min(
-                    matriz[i - 1][j - 1] + 1,
-                    matriz[i][j - 1] + 1,
-                    matriz[i - 1][j] + 1
-                );
-            }
-        }
-    }
-
-    return matriz[b.length][a.length];
+function escaparHtml(texto) {
+    const elementoTemporario = document.createElement("div");
+    elementoTemporario.textContent = String(texto || "");
+    return elementoTemporario.innerHTML;
 }
-
 
 function obterServicosDaCategoria(categoria) {
+    return servicos.filter(function (servico) {
+        return servico.categoria === categoria;
+    });
+}
 
-    let servicosDaCategoria = [];
+function encontrarServico(nomesPossiveis) {
+    const nomesNormalizados = nomesPossiveis.map(normalizarTexto);
 
-    for (let servico of servicos) {
+    return servicos.find(function (servico) {
+        return nomesNormalizados.includes(normalizarTexto(servico.nome));
+    });
+}
 
-        if (servico.categoria === categoria) {
-            servicosDaCategoria.push(servico);
-        }
+function dividirEtapas(texto) {
+    if (!texto) {
+        return [];
     }
 
-    return servicosDaCategoria;
+    return String(texto)
+        .split(/\s*\d+\.\s+/)
+        .map(function (etapa) { return etapa.trim(); })
+        .filter(Boolean);
 }
 
 
-// ======================================================
-// 4. EXIBIÇÃO DOS SERVIÇOS
-// ======================================================
+// ==========================================================
+// BLOCO 5 — CARDS E DETALHES DOS SERVIÇOS
+// Estas funções atendem tanto ao catálogo tradicional quanto ao resultado do assistente.
+// ==========================================================
+
+function criarResumoServico(servico) {
+    return `
+        <article class="servico-item" data-servico="${escaparHtml(servico.nome)}" tabindex="0" role="button">
+            <strong>${escaparHtml(servico.nome)}</strong>
+            <p>${escaparHtml(servico.mensagem)}</p>
+        </article>
+    `;
+}
 
 function mostrarServicos(listaServicos) {
-
     resultado.innerHTML = "";
 
-    for (let servico of listaServicos) {
+    if (listaServicos.length === 0) {
+        resultado.textContent = "Nenhum serviço foi encontrado nesta categoria.";
+        return;
+    }
 
-        resultado.innerHTML += `
-            <div
-                class="servico-item"
-                data-servico="${servico.nome}"
-                tabindex="0"
-            >
-                <strong>${servico.nome}</strong>
-                <p>${servico.mensagem}</p>
+    resultado.innerHTML = listaServicos.map(criarResumoServico).join("");
+}
+
+function criarConteudoDetalhado(servico) {
+    const etapas = dividirEtapas(servico.etapas);
+    const etapasHtml = etapas.length > 0
+        ? `<section><h3>Etapas</h3><ol>${etapas.map(function (etapa) { return `<li>${escaparHtml(etapa)}</li>`; }).join("")}</ol></section>`
+        : "";
+    const requisitosHtml = servico.requisitos
+        ? `<section><h3>Requisitos</h3><p>${escaparHtml(servico.requisitos)}</p></section>`
+        : "";
+    const documentosHtml = servico.documentos
+        ? `<section><h3>Documentos</h3><p>${escaparHtml(servico.documentos)}</p></section>`
+        : "";
+    const linkHtml = servico.link_oficial
+        ? `<a href="${escaparHtml(servico.link_oficial)}" target="_blank" rel="noopener noreferrer" class="link-oficial">Acessar canal oficial</a>`
+        : "";
+
+    // Alguns registros do fallback não representam um serviço detalhado.
+    // status_conteudo permite diferenciá-los sem inventar requisitos ou etapas:
+    // "curadoria" informa a limitação atual e "porta-entrada" encaminha o usuário
+    // para outros serviços oficiais da categoria.
+    if (servico.status_conteudo === "curadoria") {
+        return `
+            <div class="pendencia-curadoria">
+                <h3>Orientação em preparação</h3>
+                <p>${escaparHtml(servico.orientacao)}</p>
             </div>
+            ${linkHtml}
         `;
     }
-}
 
+    if (servico.status_conteudo === "porta-entrada") {
+        return `
+            <div class="pendencia-curadoria porta-entrada">
+                <h3>Outros serviços oficiais</h3>
+                <p>${escaparHtml(servico.orientacao)}</p>
+            </div>
+            ${linkHtml}
+        `;
+    }
+
+    if (!requisitosHtml && !documentosHtml && !etapasHtml && !linkHtml) {
+        return `<p>Os detalhes deste serviço aguardam curadoria e verificação em fonte oficial.</p>`;
+    }
+
+    return requisitosHtml + documentosHtml + etapasHtml + linkHtml;
+}
 
 function mostrarDetalhes(servicoSelecionado) {
-
-    let requisitos =
-        servicoSelecionado.requisitos
-            ? `<p><strong>Requisitos:</strong><br>${servicoSelecionado.requisitos}</p>`
-            : "";
-
-    let documentos =
-        servicoSelecionado.documentos
-            ? `<p><strong>Documentos:</strong><br>${servicoSelecionado.documentos}</p>`
-            : "";
-
-    let etapas =
-        servicoSelecionado.etapas
-            ? `<p><strong>Etapas:</strong><br>${servicoSelecionado.etapas}</p>`
-            : "";
-
-    let linkOficial =
-        servicoSelecionado.link_oficial
-            ? `
-                <a
-                    href="${servicoSelecionado.link_oficial}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="link-oficial"
-                >
-                    Acessar serviço oficial
-                </a>
-            `
-            : "";
-
-    let temConteudoDetalhado =
-        requisitos ||
-        documentos ||
-        etapas ||
-        linkOficial;
-
-
     resultado.innerHTML = `
-        <div class="detalhe-servico">
-
-            <h2>${servicoSelecionado.nome}</h2>
-
-            <p class="categoria-detalhe">
-                ${servicoSelecionado.categoria}
-            </p>
-
-            <p>${servicoSelecionado.mensagem}</p>
-
-            ${
-                temConteudoDetalhado
-                    ? `
-                        <div class="conteudo-futuro">
-                            ${requisitos}
-                            ${documentos}
-                            ${etapas}
-                            ${linkOficial}
-                        </div>
-                    `
-                    : `
-                        <div class="conteudo-futuro">
-                            <p>
-                                As orientações detalhadas deste serviço
-                                serão adicionadas após validação das informações.
-                            </p>
-                        </div>
-                    `
-            }
-
-            <button id="voltarServicos">
-                Voltar
-            </button>
-
-        </div>
+        <article class="detalhe-servico">
+            <p class="categoria-detalhe">${escaparHtml(servicoSelecionado.categoria)}</p>
+            <h2>${escaparHtml(servicoSelecionado.nome)}</h2>
+            <p>${escaparHtml(servicoSelecionado.mensagem)}</p>
+            <div class="conteudo-futuro">${criarConteudoDetalhado(servicoSelecionado)}</div>
+            <p class="aviso-orientacao">O VIA RJ apenas orienta. Confira os dados e realize o procedimento no canal oficial.</p>
+            <button id="voltarServicos" type="button">Voltar aos serviços</button>
+        </article>
     `;
 
-
-    let botaoVoltar =
-        document.getElementById("voltarServicos");
-
-    botaoVoltar.addEventListener(
-        "click",
-        function () {
-
-            let servicosDaCategoria =
-                obterServicosDaCategoria(
-                    servicoSelecionado.categoria
-                );
-
-            mostrarServicos(
-                servicosDaCategoria
-            );
-        }
-    );
+    document.getElementById("voltarServicos").addEventListener("click", function () {
+        mostrarServicos(obterServicosDaCategoria(servicoSelecionado.categoria));
+    });
 }
 
 
-// ======================================================
-// 5. PESQUISA
-// ======================================================
+// ==========================================================
+// BLOCO 6 — IDENTIFICAÇÃO BASEADA EM REGRAS
+// Calcula quantos termos de cada situação aparecem no texto; não utiliza IA nem serviço externo.
+// ==========================================================
 
-function pesquisarServico() {
+function identificarSituacao(textoInformado) {
+    const texto = normalizarTexto(textoInformado);
+    let melhorSituacao = null;
+    let melhorPontuacao = 0;
 
-    let pesquisa = campoPesquisa.value.trim();
-
-    resultado.textContent = "";
-
-    if (pesquisa === "") {
-
-        resultado.textContent =
-            "Digite o serviço que você procura";
-
-        return;
-    }
-
-    let termo = normalizarTexto(pesquisa);
-
-    let servicosEncontrados = [];
-
-    for (let servico of servicos) {
-
+    for (const situacao of situacoes) {
         let pontuacao = 0;
 
-        let nomeNormalizado =
-            normalizarTexto(servico.nome);
+        for (const termo of situacao.termos) {
+            const termoNormalizado = normalizarTexto(termo);
 
-        if (nomeNormalizado === termo) {
-
-            pontuacao += 10;
-
-        } else if (nomeNormalizado.includes(termo)) {
-
-            pontuacao += 5;
-        }
-
-                let textosPesquisa = [
-            servico.nome,
-            servico.categoria,
-            servico.mensagem
-        ];
-
-        for (let textoPesquisa of textosPesquisa) {
-
-            if (!textoPesquisa) {
-                continue;
-            }
-
-            let textoNormalizado =
-                normalizarTexto(textoPesquisa);
-
-            if (textoNormalizado === termo) {
-
-                pontuacao += 4;
-
-            } else if (
-                textoNormalizado.includes(termo) ||
-                termo.includes(textoNormalizado)
-            ) {
-
-                pontuacao += 2;
+            if (texto.includes(termoNormalizado)) {
+                pontuacao += termoNormalizado.split(" ").length;
             }
         }
 
-        if (pontuacao > 0) {
-
-            servicosEncontrados.push({
-                servico: servico,
-                pontuacao: pontuacao
-            });
+        if (pontuacao > melhorPontuacao) {
+            melhorPontuacao = pontuacao;
+            melhorSituacao = situacao;
         }
     }
 
-    servicosEncontrados.sort(function (a, b) {
-        return b.pontuacao - a.pontuacao;
-    });
+    return melhorSituacao;
+}
 
-    if (servicosEncontrados.length === 0) {
+function resolverServicosDaSituacao(nomes) {
+    const encontrados = [];
 
-        resultado.textContent =
-            "Serviço não encontrado.";
+    for (const nome of nomes) {
+        const servico = encontrarServico([nome]);
 
+        if (servico && !encontrados.includes(servico)) {
+            encontrados.push(servico);
+        }
+    }
+
+    return encontrados;
+}
+
+function criarResultadoAssistente(situacao, nomesServicos) {
+    const relacionados = resolverServicosDaSituacao(nomesServicos);
+    const cards = relacionados.length > 0
+        ? relacionados.map(function (servico) {
+            return `<article class="servico-orientado">
+                <p class="rotulo-resultado">Serviço relacionado</p>
+                <h3>${escaparHtml(servico.nome)}</h3>
+                <p>${escaparHtml(servico.mensagem)}</p>
+                <div class="detalhes-orientacao">${criarConteudoDetalhado(servico)}</div>
+            </article>`;
+        }).join("")
+        : `<p class="pendencia-curadoria">A situação foi reconhecida, mas o serviço correspondente ainda não está disponível nesta fonte de dados. Consulte os acessos oficiais abaixo.</p>`;
+
+    resultadoAssistente.innerHTML = `
+        <div class="cabecalho-orientacao">
+            <p class="rotulo-resultado">Situação identificada</p>
+            <h2>${escaparHtml(situacao.titulo)}</h2>
+            <p>${escaparHtml(situacao.explicacao)}</p>
+        </div>
+        ${cards}
+        <p class="aviso-orientacao">Esta orientação é informativa. Confirme requisitos, documentos e etapas no canal oficial antes de iniciar o procedimento.</p>
+    `;
+}
+
+function mostrarPergunta(situacao) {
+    situacaoEmEsclarecimento = situacao;
+    resultadoAssistente.innerHTML = `
+        <div class="cabecalho-orientacao">
+            <p class="rotulo-resultado">Situação identificada</p>
+            <h2>${escaparHtml(situacao.titulo)}</h2>
+            <p>${escaparHtml(situacao.pergunta)}</p>
+        </div>
+        <div class="opcoes-pergunta" role="group" aria-label="Resposta à pergunta">
+            <button type="button" data-resposta="sim">Sim</button>
+            <button type="button" data-resposta="nao">Não</button>
+            <button type="button" data-resposta="naoSei">Não sei</button>
+        </div>
+    `;
+}
+
+function orientarUsuario() {
+    const texto = campoProblema.value.trim();
+
+    if (texto.length < 5) {
+        resultadoAssistente.textContent = "Descreva a situação com um pouco mais de detalhe.";
+        campoProblema.focus();
         return;
     }
 
-    let servicosOrdenados = [];
+    const situacao = identificarSituacao(texto);
 
-    for (let item of servicosEncontrados) {
-        servicosOrdenados.push(item.servico);
+    if (!situacao) {
+        resultadoAssistente.innerHTML = `<p class="pendencia-curadoria">Ainda não reconhecemos essa situação. Tente mencionar o documento, veículo, CNH ou multa envolvida, ou use a busca por serviço abaixo.</p>`;
+        return;
     }
 
-    mostrarServicos(servicosOrdenados);
+    if (situacao.pergunta) {
+        mostrarPergunta(situacao);
+        return;
+    }
+
+    criarResultadoAssistente(situacao, situacao.servicos);
+}
+
+function limparAssistente() {
+    campoProblema.value = "";
+    resultadoAssistente.innerHTML = "";
+    situacaoEmEsclarecimento = null;
+    campoProblema.focus();
 }
 
 
-// ======================================================
-// 6. SUGESTÕES DE PESQUISA
-// ======================================================
+// ==========================================================
+// BLOCO 7 — BUSCA TRADICIONAL E SUGESTÕES
+// Pesquisa nome, categoria, mensagem e palavras-chave sem substituir o novo assistente.
+// ==========================================================
+
+function calcularPontuacaoPesquisa(servico, termo) {
+    const textos = [servico.nome, servico.categoria, servico.mensagem]
+        .concat(servico.palavrasChave || []);
+    let pontuacao = 0;
+
+    for (const texto of textos) {
+        const normalizado = normalizarTexto(texto);
+
+        if (normalizado === termo) {
+            pontuacao += 10;
+        } else if (normalizado.includes(termo) || termo.includes(normalizado)) {
+            pontuacao += 3;
+        }
+    }
+
+    return pontuacao;
+}
+
+function pesquisarServico() {
+    const termo = normalizarTexto(campoPesquisa.value);
+    fecharSugestoes();
+
+    if (!termo) {
+        resultado.textContent = "Digite o nome ou parte do nome de um serviço.";
+        return;
+    }
+
+    const encontrados = servicos
+        .map(function (servico) {
+            return { servico: servico, pontuacao: calcularPontuacaoPesquisa(servico, termo) };
+        })
+        .filter(function (item) { return item.pontuacao > 0; })
+        .sort(function (a, b) { return b.pontuacao - a.pontuacao; })
+        .map(function (item) { return item.servico; });
+
+    if (encontrados.length === 0) {
+        resultado.textContent = "Serviço não encontrado. Tente outra palavra ou navegue pelas categorias.";
+        return;
+    }
+
+    mostrarServicos(encontrados);
+}
 
 function mostrarSugestoes() {
-
-    let texto =
-        normalizarTexto(campoPesquisa.value.trim());
-
+    const texto = normalizarTexto(campoPesquisa.value);
     sugestoes.innerHTML = "";
 
     if (texto.length < 3) {
         return;
     }
 
-    for (let servico of servicos) {
+    const encontrados = servicos.filter(function (servico) {
+        return normalizarTexto(servico.nome).includes(texto);
+    }).slice(0, 6);
 
-        let nome =
-            normalizarTexto(servico.nome);
-
-        if (nome.includes(texto)) {
-
-            sugestoes.innerHTML += `
-                <div class="sugestao-item">
-                    ${servico.nome}
-                </div>
-            `;
-        }
-    }
+    sugestoes.innerHTML = encontrados.map(function (servico) {
+        return `<button class="sugestao-item" type="button" role="option">${escaparHtml(servico.nome)}</button>`;
+    }).join("");
 }
-
 
 function fecharSugestoes() {
     sugestoes.innerHTML = "";
 }
 
 
-// ======================================================
-// 7. EVENTOS DAS CATEGORIAS
-// ======================================================
+// ==========================================================
+// BLOCO 8 — EVENTOS DO ASSISTENTE E DO CATÁLOGO
+// Event listeners conectam cliques e teclado às funções definidas anteriormente.
+// ==========================================================
 
-for (let botao of botoesCategoria) {
+botaoOrientar.addEventListener("click", orientarUsuario);
+botaoLimparAssistente.addEventListener("click", limparAssistente);
+campoProblema.addEventListener("keydown", function (evento) {
+    if (evento.key === "Enter" && (evento.ctrlKey || evento.metaKey)) {
+        orientarUsuario();
+    }
+});
 
+resultadoAssistente.addEventListener("click", function (evento) {
+    const botaoResposta = evento.target.closest("[data-resposta]");
+
+    if (!botaoResposta || !situacaoEmEsclarecimento) {
+        return;
+    }
+
+    const resposta = botaoResposta.dataset.resposta;
+    const nomes = situacaoEmEsclarecimento.respostas[resposta];
+    criarResultadoAssistente(situacaoEmEsclarecimento, nomes);
+    situacaoEmEsclarecimento = null;
+});
+
+for (const botao of botoesCategoria) {
     botao.addEventListener("click", function () {
+        const categoria = botao.dataset.categoria;
 
-        let categoriaEscolhida =
-            botao.dataset.categoria;
-
-
-        // Se clicou novamente na categoria aberta,
-        // fecha os resultados.
-        if (categoriaAberta === categoriaEscolhida) {
-
+        if (categoriaAberta === categoria) {
             resultado.innerHTML = "";
-
             categoriaAberta = null;
-
             botao.classList.remove("ativa");
-
             return;
         }
 
-
-        // Remove o estado visual dos outros botões.
-        for (let outroBotao of botoesCategoria) {
-
+        for (const outroBotao of botoesCategoria) {
             outroBotao.classList.remove("ativa");
         }
 
-
-        // Marca a nova categoria como aberta.
-        categoriaAberta = categoriaEscolhida;
-
+        categoriaAberta = categoria;
         botao.classList.add("ativa");
 
+        // Enquanto fetch ainda aguarda a API ou o JSON, mostramos o estado real
+        // da operação. carregarServicos() renderizará esta mesma categoria assim
+        // que a fonte de dados responder.
+        if (!carregamentoServicosConcluido) {
+            resultado.textContent = "Carregando serviços desta categoria...";
+            return;
+        }
 
-        // Busca os serviços da categoria.
-        let servicosDaCategoria =
-            obterServicosDaCategoria(categoriaEscolhida);
-
-
-        // Mostra os serviços.
-        mostrarServicos(servicosDaCategoria);
+        mostrarServicos(obterServicosDaCategoria(categoria));
     });
 }
 
-
-// ======================================================
-// 8. EVENTOS DOS CARTÕES
-// ======================================================
-
 resultado.addEventListener("click", function (evento) {
-
-    let cartao =
-        evento.target.closest(".servico-item");
+    const cartao = evento.target.closest(".servico-item");
 
     if (!cartao) {
         return;
     }
 
-    let nomeServico =
-        cartao.dataset.servico;
+    const selecionado = servicos.find(function (servico) {
+        return servico.nome === cartao.dataset.servico;
+    });
 
-    let servicoSelecionado =
-        servicos.find(function (servico) {
-
-            return servico.nome === nomeServico;
-        });
-
-    if (!servicoSelecionado) {
-        return;
+    if (selecionado) {
+        mostrarDetalhes(selecionado);
     }
-
-    mostrarDetalhes(servicoSelecionado);
 });
 
-
 resultado.addEventListener("keydown", function (evento) {
+    const cartao = evento.target.closest(".servico-item");
 
-    let cartao =
-        evento.target.closest(".servico-item");
-
-    if (!cartao) {
-        return;
-    }
-
-    if (
-        evento.key === "Enter" ||
-        evento.key === " "
-    ) {
-
+    if (cartao && (evento.key === "Enter" || evento.key === " ")) {
         evento.preventDefault();
         cartao.click();
     }
 });
 
-
-// ======================================================
-// 9. EVENTOS DA PESQUISA
-// ======================================================
-
-botaoPesquisar.addEventListener(
-    "click",
-    pesquisarServico
-);
-
-
-campoPesquisa.addEventListener(
-    "keydown",
-    function (evento) {
-
-        if (evento.key === "Enter") {
-            pesquisarServico();
-        }
-    }
-);
-
-
-campoPesquisa.addEventListener(
-    "input",
-    mostrarSugestoes
-);
-
-
-// ======================================================
-// 10. EVENTOS DAS SUGESTÕES
-// ======================================================
-
-sugestoes.addEventListener(
-    "click",
-    function (evento) {
-
-        let sugestao =
-            evento.target.closest(".sugestao-item");
-
-        if (!sugestao) {
-            return;
-        }
-
-        campoPesquisa.value =
-            sugestao.textContent.trim();
-
-        fecharSugestoes();
-
+botaoPesquisar.addEventListener("click", pesquisarServico);
+campoPesquisa.addEventListener("input", mostrarSugestoes);
+campoPesquisa.addEventListener("keydown", function (evento) {
+    if (evento.key === "Enter") {
         pesquisarServico();
-    }
-);
-
-
-// ======================================================
-// 11. EVENTOS GERAIS DA PÁGINA
-// ======================================================
-
-document.addEventListener(
-    "click",
-    function (evento) {
-
-        if (
-            !campoPesquisa.contains(evento.target) &&
-            !sugestoes.contains(evento.target)
-        ) {
-            fecharSugestoes();
-        }
-    }
-);
-
-
-document.addEventListener(
-    "keydown",
-    function (evento) {
-
-        if (evento.key === "Escape") {
-            fecharSugestoes();
-        }
-    }
-);
-
-// ======================================================
-// 12. TEMA CLARO / ESCURO
-// ======================================================
-
-let botaoTema = document.getElementById("botaoTema");
-
-
-// --------------------------------------
-// APLICAR TEMA
-// --------------------------------------
-
-function aplicarTema(tema) {
-
-    document.documentElement
-        .setAttribute("data-theme", tema);
-
-    localStorage.setItem("tema", tema);
-
-    if (tema === "dark") {
-
-        botaoTema.setAttribute(
-            "aria-label",
-            "Ativar modo claro"
-        );
-
-    } else {
-
-        botaoTema.setAttribute(
-            "aria-label",
-            "Ativar modo escuro"
-        );
-    }
-}
-
-
-// --------------------------------------
-// CARREGAR TEMA SALVO
-// --------------------------------------
-
-let temaSalvo = localStorage.getItem("tema");
-
-if (temaSalvo === "dark") {
-
-    aplicarTema("dark");
-
-} else {
-
-    aplicarTema("light");
-}
-
-
-// --------------------------------------
-// TROCAR TEMA AO CLICAR
-// --------------------------------------
-
-botaoTema.addEventListener("click", function () {
-
-    let temaAtual =
-        document.documentElement
-            .getAttribute("data-theme");
-
-    if (temaAtual === "dark") {
-
-        aplicarTema("light");
-
-    } else {
-
-        aplicarTema("dark");
     }
 });
 
-// ======================================================
-// 13. ACESSIBILIDADE
-// ======================================================
+sugestoes.addEventListener("click", function (evento) {
+    const sugestao = evento.target.closest(".sugestao-item");
 
-let botaoAcessibilidade =
-    document.getElementById("botaoAcessibilidade");
-
-let painelAcessibilidade =
-    document.getElementById("painelAcessibilidade");
-
-let botaoAumentarTexto =
-    document.getElementById("botaoAumentarTexto");
-
-let botaoReduzirMovimento =
-    document.getElementById("botaoReduzirMovimento");
-
-let botaoResetarAcessibilidade =
-    document.getElementById("botaoResetarAcessibilidade");
-
-
-// --------------------------------------
-// ABRIR / FECHAR PAINEL
-// --------------------------------------
-
-botaoAcessibilidade.addEventListener(
-    "click",
-    function () {
-
-        let painelAberto =
-            !painelAcessibilidade.hidden;
-
-        painelAcessibilidade.hidden =
-            painelAberto;
-
-        botaoAcessibilidade.setAttribute(
-            "aria-expanded",
-            String(!painelAberto)
-        );
+    if (sugestao) {
+        campoPesquisa.value = sugestao.textContent.trim();
+        pesquisarServico();
     }
-);
+});
 
-
-// --------------------------------------
-// AUMENTAR / NORMALIZAR TEXTO
-// --------------------------------------
-
-botaoAumentarTexto.addEventListener(
-    "click",
-    function () {
-
-        document.documentElement
-            .classList
-            .toggle("texto-ampliado");
-
-        let ativo =
-            document.documentElement
-                .classList
-                .contains("texto-ampliado");
-
-        localStorage.setItem(
-            "textoAmpliado",
-            ativo
-        );
+document.addEventListener("click", function (evento) {
+    if (!campoPesquisa.contains(evento.target) && !sugestoes.contains(evento.target)) {
+        fecharSugestoes();
     }
-);
+});
 
 
-// --------------------------------------
-// REDUZIR MOVIMENTO
-// --------------------------------------
+// ==========================================================
+// BLOCO 9 — TEMA CLARO E ESCURO
+// localStorage preserva a preferência somente no navegador do usuário.
+// ==========================================================
 
-botaoReduzirMovimento.addEventListener(
-    "click",
-    function () {
+const botaoTema = document.getElementById("botaoTema");
 
-        document.documentElement
-            .classList
-            .toggle("reduzir-movimento");
-
-        let ativo =
-            document.documentElement
-                .classList
-                .contains("reduzir-movimento");
-
-        botaoReduzirMovimento.setAttribute(
-            "aria-pressed",
-            String(ativo)
-        );
-
-        localStorage.setItem(
-            "reduzirMovimento",
-            ativo
-        );
-    }
-);
-
-
-// --------------------------------------
-// RESTAURAR PADRÃO
-// --------------------------------------
-
-botaoResetarAcessibilidade.addEventListener(
-    "click",
-    function () {
-
-        document.documentElement
-            .classList
-            .remove(
-                "texto-ampliado",
-                "reduzir-movimento"
-            );
-
-        botaoReduzirMovimento.setAttribute(
-            "aria-pressed",
-            "false"
-        );
-
-        localStorage.removeItem(
-            "textoAmpliado"
-        );
-
-        localStorage.removeItem(
-            "reduzirMovimento"
-        );
-    }
-);
-
-
-// --------------------------------------
-// CARREGAR PREFERÊNCIAS SALVAS
-// --------------------------------------
-
-if (
-    localStorage.getItem(
-        "textoAmpliado"
-    ) === "true"
-) {
-
-    document.documentElement
-        .classList
-        .add("texto-ampliado");
+function aplicarTema(tema) {
+    document.documentElement.setAttribute("data-theme", tema);
+    localStorage.setItem("tema", tema);
+    botaoTema.setAttribute("aria-label", tema === "dark" ? "Ativar modo claro" : "Ativar modo escuro");
 }
 
+aplicarTema(localStorage.getItem("tema") === "dark" ? "dark" : "light");
 
-if (
-    localStorage.getItem(
-        "reduzirMovimento"
-    ) === "true"
-) {
+botaoTema.addEventListener("click", function () {
+    const temaAtual = document.documentElement.getAttribute("data-theme");
+    aplicarTema(temaAtual === "dark" ? "light" : "dark");
+});
 
-    document.documentElement
-        .classList
-        .add("reduzir-movimento");
 
-    botaoReduzirMovimento.setAttribute(
-        "aria-pressed",
-        "true"
-    );
+// ==========================================================
+// BLOCO 10 — PREFERÊNCIAS DE ACESSIBILIDADE
+// Controla o painel, salva escolhas locais e permite restaurar o padrão.
+// ==========================================================
+
+const botaoAcessibilidade = document.getElementById("botaoAcessibilidade");
+const painelAcessibilidade = document.getElementById("painelAcessibilidade");
+const botaoAumentarTexto = document.getElementById("botaoAumentarTexto");
+const botaoReduzirMovimento = document.getElementById("botaoReduzirMovimento");
+const botaoResetarAcessibilidade = document.getElementById("botaoResetarAcessibilidade");
+
+function aplicarPreferenciasAcessibilidade() {
+    const textoAmpliado = localStorage.getItem("textoAmpliado") === "true";
+    const movimentoReduzido = localStorage.getItem("reduzirMovimento") === "true";
+
+    document.documentElement.classList.toggle("texto-ampliado", textoAmpliado);
+    document.documentElement.classList.toggle("reduzir-movimento", movimentoReduzido);
+    botaoReduzirMovimento.setAttribute("aria-pressed", String(movimentoReduzido));
 }
 
+botaoAcessibilidade.addEventListener("click", function () {
+    const estavaAberto = !painelAcessibilidade.hidden;
+    painelAcessibilidade.hidden = estavaAberto;
+    botaoAcessibilidade.setAttribute("aria-expanded", String(!estavaAberto));
+});
 
-// --------------------------------------
-// ESC FECHA O PAINEL
-// --------------------------------------
+botaoAumentarTexto.addEventListener("click", function () {
+    const ativo = !document.documentElement.classList.contains("texto-ampliado");
+    localStorage.setItem("textoAmpliado", String(ativo));
+    aplicarPreferenciasAcessibilidade();
+});
 
-document.addEventListener(
-    "keydown",
-    function (evento) {
+botaoReduzirMovimento.addEventListener("click", function () {
+    const ativo = !document.documentElement.classList.contains("reduzir-movimento");
+    localStorage.setItem("reduzirMovimento", String(ativo));
+    aplicarPreferenciasAcessibilidade();
+});
 
-        if (
-            evento.key === "Escape" &&
-            !painelAcessibilidade.hidden
-        ) {
+botaoResetarAcessibilidade.addEventListener("click", function () {
+    localStorage.removeItem("textoAmpliado");
+    localStorage.removeItem("reduzirMovimento");
+    aplicarPreferenciasAcessibilidade();
+});
 
-            painelAcessibilidade.hidden =
-                true;
-
-            botaoAcessibilidade.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            botaoAcessibilidade.focus();
-        }
+document.addEventListener("keydown", function (evento) {
+    if (evento.key !== "Escape") {
+        return;
     }
-);
 
+    fecharSugestoes();
+
+    if (!painelAcessibilidade.hidden) {
+        painelAcessibilidade.hidden = true;
+        botaoAcessibilidade.setAttribute("aria-expanded", "false");
+        botaoAcessibilidade.focus();
+    }
+});
+
+aplicarPreferenciasAcessibilidade();
