@@ -1,66 +1,76 @@
 # VIA RJ 🚦
 
-O VIA RJ é um projeto acadêmico que ajuda o cidadão a encontrar orientações sobre problemas de trânsito e documentação no Rio de Janeiro.
+O VIA RJ é um projeto acadêmico e independente que orienta o cidadão a encontrar serviços de trânsito e documentação no Rio de Janeiro. Não é um sistema oficial e não executa procedimentos do DETRAN-RJ.
 
-> **Aviso:** o VIA RJ é independente, não é um sistema oficial do DETRAN-RJ e não executa procedimentos. Requisitos e etapas devem ser confirmados nos canais oficiais indicados.
+## Experiência atual
 
-## Objetivo atual
+A interface segue um fluxo app-first:
 
-A página oferece dois caminhos:
+```text
+Home → categoria → serviço ou subcategoria → orientação → canal oficial
+```
 
-1. **Assistente de resolução:** o usuário descreve uma situação cotidiana e um conjunto simples de regras identifica uma situação provável.
-2. **Catálogo tradicional:** o usuário pesquisa por nome ou navega pelas categorias e serviços existentes.
-
-O assistente ainda não usa inteligência artificial. Nesta etapa, isso é proposital: as regras são gratuitas, transparentes e fáceis de estudar.
+A Home possui uma única entrada: ela aceita tanto o nome de um serviço quanto uma descrição cotidiana. A busca estruturada e as regras locais são executadas primeiro. Uma camada opcional de interpretação por Gemini pode ser ativada no servidor, mas os requisitos, documentos e etapas continuam vindo exclusivamente da base controlada do VIA RJ.
 
 ## Tecnologias
 
-- HTML5 para estrutura e acessibilidade;
-- CSS3 para layout, responsividade e temas claro/escuro;
-- JavaScript puro para regras, busca e manipulação da página;
-- PHP para a API de serviços;
-- MySQL/MariaDB para armazenar os serviços na instalação completa.
+- HTML5 e CSS3;
+- JavaScript puro;
+- PHP;
+- MySQL/MariaDB;
+- `servicos.json` como fallback da API.
 
-## Estrutura
+## Estrutura principal
 
 ```text
 VIA-RJ/
 ├── api/
+│   ├── assistente-ia.php
 │   ├── conexao.php
-│   ├── servicos.php
-│   └── teste.php
-├── docs/
-│   └── GUIA-DE-ESTUDO.md
+│   └── servicos.php
+├── docs/GUIA-DE-ESTUDO.md
 ├── images/
+│   └── acessos/                 # imagens públicas fornecidas pelo responsável
 ├── index.html
+├── habilitacao.html
+├── veiculos.html
+├── vistoria-veicular.html
+├── identificacao.html
+├── infracoes.html
+├── servico.html
 ├── script.js
+├── paginas.js
 ├── servicos.json
-├── style.css
-└── via_rj_backup.sql
+└── style.css
 ```
-
-O arquivo `servicos.json` funciona como alternativa para uma hospedagem estática. No XAMPP ou em uma hospedagem PHP, `script.js` tenta primeiro `api/servicos.php` e usa o JSON caso a API não esteja disponível.
 
 ## Como executar com XAMPP
 
-1. Copie a pasta do projeto para `C:\xampp\htdocs\via-rj`.
-2. Inicie **Apache** e **MySQL** no painel do XAMPP.
-3. No phpMyAdmin, crie o banco `via_rj` e importe `via_rj_backup.sql` somente em uma instalação vazia.
-4. Confira localmente, sem publicar credenciais, se `api/conexao.php` corresponde ao seu ambiente.
+1. Copie a pasta para `C:\xampp\htdocs\via-rj`.
+2. Inicie Apache e MySQL.
+3. Em uma instalação vazia, importe `via_rj_backup.sql` pelo phpMyAdmin.
+4. Configure `api/config.local.php` somente no ambiente local.
 5. Abra `http://localhost/via-rj/`.
 
-O backup SQL existente contém comandos de recriação e não deve ser importado sobre um banco com dados que precisem ser preservados.
+O backup contém comandos destrutivos de recriação e não deve ser importado sobre dados que precisem ser preservados.
 
-## Situações demonstradas
+## Gemini opcional
 
-- CNH vencida;
-- veículo vendido ainda no nome do antigo proprietário;
-- multa recebida quando outra pessoa dirigia;
-- licenciamento/CRLV-e não atualizado;
-- identidade perdida;
-- compra de veículo usado.
+Os serviços da API são combinados com o fallback: registros do banco prevalecem quando existem e `servicos.json` completa os itens ainda ausentes no banco.
 
-Consulte [docs/GUIA-DE-ESTUDO.md](docs/GUIA-DE-ESTUDO.md) para entender o fluxo completo e os pontos recomendados para continuar estudando.
+`api/assistente-ia.php` só atua depois que busca e regras locais falham. Para habilitar, o servidor precisa oferecer cURL, saída HTTPS e as variáveis de ambiente `GEMINI_API_KEY` e, opcionalmente, `GEMINI_MODEL`. Sem isso, o sistema continua funcionando normalmente e nenhuma chave chega ao navegador ou ao repositório.
+
+No InfinityFree, confirme previamente se o plano permite chamadas HTTPS de saída e configuração segura de variáveis. Se não permitir, mantenha a camada desativada.
+
+## Assets dos acessos públicos
+
+Os três arquivos fornecidos pelo responsável estão armazenados em:
+
+- `images/acessos/bradesco-duda-grt.png`;
+- `images/acessos/diario-oficial-rj.png`;
+- `images/acessos/ipva-fazenda-rj.png`.
+
+A Home exibe cada imagem inteira em um enquadramento padronizado, sem recorte ou deformação. A identificação textual neutra permanece apenas como fallback técnico se algum arquivo deixar de carregar.
 
 ## Autor
 

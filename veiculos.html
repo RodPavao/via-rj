@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<!-- BLOCO 1 — CONFIGURAÇÃO: recursos obrigatórios e tema salvo antes da tela. -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Serviços de veículos organizados pelo VIA RJ."><link rel="icon" href="favicon.ico"><script>document.documentElement.dataset.theme=localStorage.getItem("tema")==="dark"?"dark":"light";</script><link rel="stylesheet" href="style.css"><title>Veículos — VIA RJ</title></head>
+<body class="pagina-interna" data-tela="veiculos">
+<!-- BLOCO 2 — TOP BAR: retorno, marca e controles compactos de aplicativo. -->
+<header class="topo-app"><div class="marca-interna"><a class="voltar-topo" href="index.html">← Voltar</a><a href="index.html"><img class="logo-via-rj" src="images/logo-via-rj.png" alt="Ir para a Home do VIA RJ"></a></div><div class="controles-topo"><div class="area-acessibilidade"><button id="botaoAcessibilidade" class="botao-icone" type="button" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="painelAcessibilidade">Aa</button><div id="painelAcessibilidade" class="painel-acessibilidade" hidden><strong>Acessibilidade</strong><button id="botaoAumentarTexto" type="button">Aumentar texto</button><button id="botaoReduzirMovimento" type="button" aria-pressed="false">Reduzir animações</button><button id="botaoResetarAcessibilidade" type="button">Restaurar padrão</button></div></div><button id="botaoTema" class="botao-icone" type="button" aria-label="Ativar modo escuro"><span aria-hidden="true">◐</span></button></div></header>
+<!-- BLOCO 3 — CONTEÚDO: somente os quatro atalhos principais permanecem na vitrine. -->
+<main class="app-shell"><section class="cabecalho-tela"><div><h1>Veículos</h1><p>Escolha uma opção</p></div></section><div id="gradeServicos" class="grade-servicos" aria-label="Serviços de veículos"></div><p class="nota-tela">Serviços auxiliares continuam disponíveis pela busca da Home.</p></main>
+<!-- BLOCO 4 — SCRIPT: configuração compartilhada evita duplicar cards entre páginas. -->
+<script src="paginas.js" defer></script></body></html>
